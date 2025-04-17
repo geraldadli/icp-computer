@@ -22,7 +22,7 @@ Development Status: Not Started
 | Blockchain Layer | Infrastructure | Technical | Critical |
 | Smart Contract Framework | Infrastructure | Technical | Critical |
 | Keamanan & Enkripsi Data | Security | Technical | Critical |
-| Integrasi IoT & Sensor | Infrastructure | Technical | High |
+| Integrasi IoT & Sensor | Infrastructure | Technical | Low |
 | Antarmuka & UX (Web & Mobile) | UI/UX | Technical | High |
 | Pencatatan & Pelaporan | Operations | Technical | Medium |
 | Interoperabilitas & API | Infrastructure | Technical | High |
