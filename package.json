@@ -13,7 +13,6 @@
         "npm": ">=7.0.0"
     },
     "workspaces": [ 
-        "src/farmer_dapp_frontend",
-        "src/farmer_dapp_backend"
+        "src/farmer_dapp_frontend"
     ]
 }
