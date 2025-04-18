@@ -8,7 +8,7 @@
 
 **Untuk push code, jangan di main. Pilih branch 1, 2, atau 3. Github Private Free Account tidak ada sistem authentication pull requests.
 Jadi tolong di branch masing-masing. Aku bakal push ke main setelah review codenya.**
->>>>>>> 49c5232483b41d37c278c904b727d3be7b554107
+----------------------------------------------------------------------------------------------------------
 
 Welcome to your new `farmer_dapp` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
