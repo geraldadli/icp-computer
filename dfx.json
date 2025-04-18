@@ -9,7 +9,7 @@
         "farmer_dapp_backend"
       ],
       "source": [
-        "src/farmer_dapp_frontend"
+        "src/farmer_dapp_frontend/dist"
       ],
       "type": "assets"
     },
