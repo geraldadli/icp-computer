@@ -28,9 +28,11 @@ const Login = () => {
     setErrors(e2);
     if (Object.keys(e2).length === 0) {
       // → call your backend/login logic…
-      navigate('/home', { state: { role } });
+-      navigate('/home', { state: { role } });
++      navigate('/home', { state: { role, username: form.username } });
     }
   };
+
 
   return (
     <div className="welcome-container">

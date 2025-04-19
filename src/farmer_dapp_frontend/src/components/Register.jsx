@@ -36,7 +36,7 @@ const Register = () => {
     setErrors(e2);
     if (Object.keys(e2).length === 0) {
       // → call your backend/register logic here…
-      navigate('/home', { state: { role } });
+      navigate('/home', { state: { role, username: form.username } });
     }
   };
 
