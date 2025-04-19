@@ -10,6 +10,8 @@ import Register        from './components/Register';
 import Login           from './components/Login';
 import Home            from './components/Home';
 import Cash          from './components/Cash';
+import Shopping      from './components/Shopping';
+import Checkout from './components/Checkout';
 import Notification  from './components/Notification';
 import Profile       from './components/Profile';
 import Forum           from './components/Forum';
@@ -36,6 +38,8 @@ function App() {
         <Route path="/:role/login"    element={<Login />} />
         <Route path="/home"           element={<Home />} />
         <Route path="/cash"           element={<Cash />} />
+        <Route path="/shop"           element={<Shopping />} />
+        <Route path="/checkout"       element={<Checkout />} />
         <Route path="/mail"           element={<Notification />} />
         <Route path="/profile"        element={<Profile />} />
         <Route path="/forum"   element={<Forum />} />

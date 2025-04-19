@@ -16,10 +16,10 @@ const Home = () => {
   const username    = state?.username || 'Guest';
 
   // Proper role label (e.g. “Farmer” → “Farmer’s”)
-  const roleLabel   = role.charAt(0).toUpperCase() + role.slice(1) + `'s`;
+  // const roleLabel   = role.charAt(0).toUpperCase() + role.slice(1) + `'s`;
 
   // New greeting: no more “Guest” for non‑guests
-  const greeting    = `Hi, ${username} ${roleLabel}`;
+  const greeting    = `Hi, ${username}!`;
 
   const profileIcon = role === 'guest' ? '❓' : '👤';
 

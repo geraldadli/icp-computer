@@ -151,7 +151,7 @@ button {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.4);
-  z-index: 0;
+  z-index: -1;
 }
 
 /* Top bar: hamburger, greeting, settings */
@@ -193,23 +193,22 @@ button {
   font-size: 1rem;
   color: black;
 }
-
-/* Bottom widget nav */
 .widget-nav {
   position: fixed;
+  bottom: 0;
   left: 0;
-  right: 0;
-  /* respect the device’s bottom inset (e.g. iPhone home‑indicator) */
-  bottom: env(safe-area-inset-bottom, 0);
-  /* give it a consistent height and center the icons */
-  height: 100px;
+  width: 100vw;
+  height: 72px;
   display: flex;
-  align-items: center;
   justify-content: space-around;
+  align-items: center;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 10;          /* make sure it floats above everything */
   padding-bottom: env(safe-area-inset-bottom, 10px);
+  z-index: 100;
+  box-sizing: border-box;
 }
+
+/* All buttons */
 .widget-button {
   background: none;
   border: none;
@@ -218,8 +217,37 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
   cursor: pointer;
+  z-index: 2;
 }
+
+/* Raised center button (Shop) */
+.widget-button.cart {
+  background: var(--primary-green);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  color: white;
+  margin-top: -28px;
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex: 0 0 auto;
+}
+
+/* Optional: for very large phones, center the bar */
+@media (min-width: 430px) {
+  .widget-nav {
+    max-width: 430px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+}
+
 
 /* ─────────────────────────────────────────────────────────────────── */
 /* DASHBOARD SECTIONS COMMON STYLES */
@@ -692,6 +720,162 @@ button {
   transform: translateX(20px);
 }
 
+/* ─── Shopping Page ─────────────────────────────────────────────── */
+.shop-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+.delivery-address {
+  flex: 1;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.cart-icon {
+  position: relative;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.cart-count-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+/* Search & Category Selector */
+.shop-search-bar {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+}
+.shop-search-bar select,
+.shop-search-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+/* Categories Bar */
+.categories-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 16px;
+}
+.category-item {
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.category-item.active {
+  background: var(--primary-green);
+  color: white;
+}
+
+/* Subcategories Bar */
+.subcategories-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 6px;
+  padding: 4px 16px;
+}
+.subcategory-item {
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: var(--primary-green);
+  color: white;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 12px 16px;
+}
+.product-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+}
+.product-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.product-card.dark {
+  color: white;
+}
+
+.product-card.light {
+  color: black;
+}
+
+.product-card button {
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary-green);
+  color: white;
+  cursor: pointer;
+}
+
+/* Show All button */
+.show-all {
+  text-align: center;
+  margin: 12px 0;
+}
+.show-all button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary-green);
+  color: white;
+  cursor: pointer;
+}
+
+.shop-subheader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--overlay-bg);
+}
+
+.shop-subheader .delivery-address {
+  font-size: 0.9rem;
+}
+
+.shop-subheader .cart-icon {
+  font-size: 1.5rem;
+  position: relative;
+  cursor: pointer;
+}
+
 /* ─── Theme Variables ───────────────────────────────────────────────── */
 :root {
   --bg-color: #ffffff;
@@ -746,6 +930,55 @@ body {
 .switch input:checked + .slider {
   background: var(--primary-green);
 }
+
+/* Editable address input */
+.addr-input {
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  width: 140px;
+}
+
+/* Subheader layout */
+.shop-subheader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--overlay-bg);
+}
+
+/* Checkout item rows */
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+.checkout-item.total {
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+/* Payment option styling */
+.payment-option {
+  display: block;
+  margin: 6px 0;
+}
+
+/* Place Order button */
+.place-order-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 16px;
+  background: var(--primary-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 
 /* Responsive (desktop preview) */
 @media (min-width: 768px) {
