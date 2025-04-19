@@ -3,7 +3,7 @@
 **--Guideline Private Repository--**
 1. Gerald Adli
 2. Muhammad Tiflanil Azhar Rudin
-3. Agra Radhitya
+3. Agra Radhitya b
 4. Khalif Umar Al Faruq
 
 **Untuk push code, jangan di main. Pilih branch 1, 2, atau 3. Github Private Free Account tidak ada sistem authentication pull requests.
