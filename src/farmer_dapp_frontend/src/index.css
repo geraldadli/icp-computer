@@ -113,7 +113,7 @@ button {
 }
 
 .input-field {
-  width: 100%;
+  width: 90%;
   padding: 12px 40px 12px 12px;
   border-radius: 10px;
   border: none;
@@ -501,6 +501,93 @@ button {
   cursor: pointer;
 }
 
+/* ─── Sidebar ────────────────────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 0; left: -240px;      /* hide offscreen */
+  width: 240px;
+  height: 100%;
+  background: white;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  transition: left .3s;
+  z-index: 100;              /* above page content */
+}
+.sidebar.open {
+  left: 0;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 16px;
+  margin: 0;
+}
+.sidebar ul li {
+  margin: 12px 0;
+}
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+.sidebar-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 50;               /* below sidebar but above page */
+}
+
+/* ─── Forum posts ───────────────────────────────────────────────── */
+.forum-post {
+  background: white;
+  color: black;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.forum-post h4 {
+  margin: 0 0 8px;
+}
+.forum-post p {
+  margin: 0 0 8px;
+  font-size: .9rem;
+  color: #555;
+}
+.forum-votes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forum-votes button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.forum-votes button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Replies indent */
+.reply-list .forum-post {
+  background: rgba(255,255,255,0.9);
+  margin-bottom: 8px;
+  padding: 8px;
+}
+
+/* Slightly smaller up/down buttons */
+.forum-votes button {
+  font-size: 1rem;
+}
+
+/* Textarea styling like input-field */
+.input-field {
+  width: 90%;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  margin-bottom: 6px;
+}
+
 /* ─── Settings Page ───────────────────────────────────────────────── */
 .settings-card {
   position: relative;
@@ -529,6 +616,39 @@ button {
 
 .settings-item:not(:last-child) {
   border-bottom: 1px solid #ddd;
+}
+
+/* ─── Account Settings Form ─────────────────────────────────────── */
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.account-field label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--text-color);
+}
+
+.account-field input {
+  width: 90%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--card-text);
+}
+
+.save-btn {
+  background: var(--primary-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /* ─── Toggle Switch ───────────────────────────────────────────────── */
@@ -570,6 +690,61 @@ button {
 
 .switch input:checked + .slider:before {
   transform: translateX(20px);
+}
+
+/* ─── Theme Variables ───────────────────────────────────────────────── */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --overlay-bg: rgba(0,0,0,0.4);
+  --card-bg: white;
+  --card-text: black;
+  --primary-green: #2ed573;
+  --border-color: #ddd;
+}
+
+.dark-mode {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --overlay-bg: rgba(0,0,0,0.7);
+  --card-bg: #1f1f1f;
+  --card-text: #ffffff;
+  --primary-green: #25a75a;
+  --border-color: #444;
+}
+
+/* apply theme to body */
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* reuse variables in existing classes */
+.home-container,
+.profile-container,
+.settings-card {
+  background-image: url('../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.home-container .overlay,
+.profile-container .overlay,
+.settings-card {
+  background: var(--overlay-bg);
+}
+.settings-card,
+.profile-info-card,
+.balance-section,
+.information-section,
+.section {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-color: var(--border-color);
+}
+.top-up-btn,
+.filter-dropdown,
+.switch input:checked + .slider {
+  background: var(--primary-green);
 }
 
 /* Responsive (desktop preview) */

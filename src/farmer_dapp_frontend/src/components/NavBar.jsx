@@ -1,17 +1,31 @@
 // src/components/NavBar.jsx
-import React from 'react';
+import React, { useContext } from 'react';
+import { SidebarContext } from '../SidebarContext';
+import Sidebar from './Sidebar';
 
-const NavBar = ({ onMenu, onSettings, greeting, profileIcon }) => (
-  <div className="top-bar">
-    <button className="hamburger" onClick={onMenu}>☰</button>
+const NavBar = ({ onSettings, greeting, profileIcon }) => {
+  const { open, setOpen } = useContext(SidebarContext);
 
-    <div className="greeting">{greeting}</div>
+  return (
+    <>
+      {/* Sidebar lives here so it’s layered above NavBar but below page content */}
+      <Sidebar />
 
-    {/* avatar now lives here, next to the greeting */}
-    <div className="avatar">{profileIcon}</div>
+      <div className="top-bar">
+        <button className="hamburger" onClick={() => setOpen(true)}>
+          ☰
+        </button>
 
-    <button className="settings-icon" onClick={onSettings}>⚙️</button>
-  </div>
-);
+        <div className="greeting">{greeting}</div>
+
+        <div className="avatar">{profileIcon}</div>
+
+        <button className="settings-icon" onClick={onSettings}>
+          ⚙️
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default NavBar;

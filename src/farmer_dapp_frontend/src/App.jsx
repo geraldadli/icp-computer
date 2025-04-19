@@ -12,7 +12,15 @@ import Home            from './components/Home';
 import Cash          from './components/Cash';
 import Notification  from './components/Notification';
 import Profile       from './components/Profile';
+import Forum           from './components/Forum';
+import Payment         from './components/Payment';
+import Help            from './components/Help';
 import Settings     from './components/Settings';
+import AccountSettings     from './components/settings/AccountSettings';
+import ActivitySettings    from './components/settings/ActivitySettings';
+import NotificationSettings from './components/settings/NotificationSettings.jsx';
+import LanguageSettings    from './components/settings/LanguageSettings';
+import PrivacySettings     from './components/settings/PrivacySettings';
 
 import './index.css';
 
@@ -30,7 +38,15 @@ function App() {
         <Route path="/cash"           element={<Cash />} />
         <Route path="/mail"           element={<Notification />} />
         <Route path="/profile"        element={<Profile />} />
+        <Route path="/forum"   element={<Forum />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/help"    element={<Help />} />
         <Route path="/settings"       element={<Settings />} />
+        <Route path="/settings/account"         element={<AccountSettings />} />
+        <Route path="/settings/activity"        element={<ActivitySettings />} />
+        <Route path="/settings/notification"    element={<NotificationSettings />} />
+        <Route path="/settings/language"        element={<LanguageSettings />} />
+        <Route path="/settings/privacy"         element={<PrivacySettings />} />
       </Routes>
     </Router>
   );
