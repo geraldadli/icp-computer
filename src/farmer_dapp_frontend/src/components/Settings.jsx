@@ -13,7 +13,12 @@ const Settings = () => {
 
   const role     = (state?.role || 'guest').toLowerCase();
   const username = state?.username || 'Guest';
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const items = [
     { key: 'account',      label: 'Account',      path: 'account' },
@@ -24,7 +29,7 @@ const Settings = () => {
   ];
 
   const goTo = (sub) =>
-    navigate(`/settings/${sub}`, { state: { role, username } });
+    navigate(`/settings/${sub}`, { state: { role, username, method } });
 
   return (
     <div className="home-container">
@@ -69,6 +74,7 @@ const Settings = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );

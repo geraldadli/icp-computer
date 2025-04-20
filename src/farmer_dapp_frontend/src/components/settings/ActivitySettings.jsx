@@ -7,7 +7,12 @@ const ActivitySettings = () => {
   const { state }   = useLocation();
   const navigate    = useNavigate();
   const { role, username } = state || {};
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const [trackActivity, setTrackActivity] = useState(true);
   const [showOnline, setShowOnline]       = useState(true);
@@ -58,6 +63,7 @@ const ActivitySettings = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );

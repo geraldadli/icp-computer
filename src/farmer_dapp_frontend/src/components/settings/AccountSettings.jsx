@@ -9,7 +9,12 @@ const AccountSettings = () => {
   const username    = state?.username || 'Guest';
   const emailDefault= state?.email    || 'your.email@example.com';
   const phoneDefault= state?.phone    || '+62 8123456789';
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const [name,  setName]  = useState(username);
   const [email, setEmail] = useState(emailDefault);
@@ -75,6 +80,7 @@ const AccountSettings = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );
