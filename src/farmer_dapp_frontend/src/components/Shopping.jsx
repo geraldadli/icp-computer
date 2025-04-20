@@ -14,6 +14,15 @@ export default function Shopping() {
   const initialCart       = state?.cart    || {};
   const initialAddress    = state?.address || 'Jakarta';
 
+  const role      = (state?.role     || 'guest').toLowerCase();
+  const username  = state?.username || 'Guest';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+  ? '🆔'
+  : role === 'guest'
+    ? '❓'
+    : '👤';
+
   const { darkMode } = useContext(ThemeContext);
 
   // Local component state
@@ -46,8 +55,14 @@ export default function Shopping() {
 
   const goToCheckout = () => {
     navigate('/checkout', {
-      state: { cart, address }
-    });
+      state: {
+        cart,
+        address,
+        role,
+        username,
+        method,
+      },
+    });    
   };
 
   // Keep address in sync with state on back‑navigation
@@ -157,9 +172,10 @@ export default function Shopping() {
 
       {/* Bottom Widget Nav */}
       <WidgetNav
-        profileIcon="👤"
-        role={state?.role || 'guest'}
-        username={state?.username || 'Guest'}
+        profileIcon={profileIcon}
+        role={role}
+        username={username}
+        method={method}
       />
     </div>
   );

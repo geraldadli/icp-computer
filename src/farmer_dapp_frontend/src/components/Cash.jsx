@@ -31,7 +31,11 @@ export default function Cash() {
   const role     = (state?.role     || 'guest').toLowerCase();
   const username = state?.username || 'Guest';
   const method   = state?.method   || 'email';
-  const profileIcon = method === 'ii' ? '🆔' : '👤';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const [filter, setFilter] = useState('General');
 

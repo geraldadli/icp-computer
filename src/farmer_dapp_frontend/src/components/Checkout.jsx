@@ -1,27 +1,32 @@
-// src/components/Checkout.jsx
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import NavBar    from './NavBar';
+import NavBar from './NavBar';
 import WidgetNav from './WidgetNav';
 import { mockProducts } from '../data/mockProducts';
 
 export default function Checkout() {
-  const { state }   = useLocation();
-  const navigate    = useNavigate();
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
-  // Pull cart & address from location.state
+  // Auth + user info
+  const role     = (state?.role     || 'guest').toLowerCase();
+  const username = state?.username || 'Guest';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii' ? '🆔' : '👤';
+
+  // Cart & address
   const cart    = state?.cart    || {};
-  const address = state?.address || '';
+  const address = state?.address || 'No address set';
 
-  // Build line‑items
+  // Build line-items
   const items = Object.entries(cart).map(([id, qty]) => {
     const prod = mockProducts.find((p) => p.id === +id);
     return { ...prod, qty };
   });
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
 
-  // Payment method
-  const [method, setMethod]   = useState('BCA');
+  // Rename this to avoid conflict with login method
+  const [paymentMethod, setPaymentMethod] = useState('BCA');
   const [icPayOpt, setIcPayOpt] = useState('ckBTC');
 
   const handlePlaceOrder = () => {
@@ -29,15 +34,18 @@ export default function Checkout() {
       `Order placed!\n\n` +
       items.map((i) => `${i.name} ×${i.qty}`).join('\n') +
       `\n\nTotal: Rp. ${subtotal.toLocaleString()}` +
-      `\nPayment: ${method}${method==='IC Pay'? ` (${icPayOpt})`:''}`
+      `\nPayment: ${paymentMethod}${paymentMethod === 'IC Pay' ? ` (${icPayOpt})` : ''}`
     );
 
-    // Navigate back to Shopping with an **empty** cart
+    // Reset cart and return to shop
     navigate('/shop', {
       state: {
         cart: {},
-        address
-      }
+        address,
+        role,
+        username,
+        method,
+      },
     });
   };
 
@@ -47,12 +55,12 @@ export default function Checkout() {
 
       <NavBar
         greeting="Checkout"
-        profileIcon="👤"
+        profileIcon={profileIcon}
         onSettings={() => navigate('/settings', { state })}
       />
 
       <div className="dashboard-content">
-        {/* Address */}
+        {/* Address Section */}
         <div className="section">
           <h3>Shipping to:</h3>
           <p>{address}</p>
@@ -73,27 +81,27 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* Payment */}
+        {/* Payment Method */}
         <div className="section">
           <h3>Payment Method</h3>
-          {['BCA','Gopay','IC Pay'].map((m) => (
+          {['BCA', 'Gopay', 'IC Pay'].map((m) => (
             <label key={m} className="payment-option">
               <input
                 type="radio"
                 name="pay"
                 value={m}
-                checked={method === m}
-                onChange={() => setMethod(m)}
+                checked={paymentMethod === m}
+                onChange={() => setPaymentMethod(m)}
               />
               {m}
             </label>
           ))}
-          {method === 'IC Pay' && (
+          {paymentMethod === 'IC Pay' && (
             <select
               value={icPayOpt}
               onChange={(e) => setIcPayOpt(e.target.value)}
             >
-              {['ckBTC','ckETH','ckICP'].map((o) => (
+              {['ckBTC', 'ckETH', 'ckICP'].map((o) => (
                 <option key={o} value={o}>{o}</option>
               ))}
             </select>
@@ -105,10 +113,12 @@ export default function Checkout() {
         </button>
       </div>
 
+      {/* Fixed WidgetNav with proper context */}
       <WidgetNav
-        profileIcon="👤"
-        role={state?.role || 'guest'}
-        username={state?.username || 'Guest'}
+        profileIcon={profileIcon}
+        role={role}
+        username={username}
+        method={method}
       />
     </div>
   );

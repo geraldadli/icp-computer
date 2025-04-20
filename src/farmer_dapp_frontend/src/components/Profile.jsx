@@ -104,6 +104,7 @@ const Profile = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );
