@@ -1,32 +1,34 @@
 // src/components/Home.jsx
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import NavBar    from './NavBar';
-import WidgetNav from './WidgetNav';
+import NavBar        from './NavBar';
+import WidgetNav     from './WidgetNav';
 import FarmerDashboard from './FarmerDashboard';
 import BuyerDashboard  from './BuyerDashboard';
 
 const Home = () => {
   const { state } = useLocation();
-  const navigate    = useNavigate();
+  const navigate  = useNavigate();
 
-  // always lowercase for the lookup
-  const role        = (state?.role || 'guest').toLowerCase();
-  // now pulled from state
-  const username    = state?.username || 'Guest';
+  const role      = (state?.role     || 'guest').toLowerCase();
+  const username  = state?.username || 'Guest';
+  const method    = state?.method   || 'email';
 
-  // Proper role label (e.g. “Farmer” → “Farmer’s”)
-  // const roleLabel   = role.charAt(0).toUpperCase() + role.slice(1) + `'s`;
+  // Customize greeting based on method
+  const greeting = method === 'ii'
+    ? `Welcome via Internet Identity`
+    : `Hi, ${username}${role !== 'guest' ? `'s` : ''}`;
 
-  // New greeting: no more “Guest” for non‑guests
-  const greeting    = `Hi, ${username}!`;
+  // Choose an avatar/icon:
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const handleMenu     = () => {};
+  const handleSettings = () => navigate('/settings', { state });
 
-  const handleMenu     = () => { /* … */ };
-  const handleSettings = () => navigate('/settings');
-
-  // pick which dashboard to show
   const Dashboard = {
     farmer: FarmerDashboard,
     buyer: BuyerDashboard,
@@ -38,7 +40,6 @@ const Home = () => {
     <div className="home-container">
       <div className="overlay" />
 
-      {/* now passes profileIcon into NavBar */}
       <NavBar
         greeting={greeting}
         profileIcon={profileIcon}
@@ -46,13 +47,21 @@ const Home = () => {
         onSettings={handleSettings}
       />
 
+      {/* If you want to show the username/principal under the greeting */}
+      {method === 'ii' && (
+        <div style={{ textAlign: 'center', color: 'white', marginBottom: 12 }}>
+          Signed in as Principal: {username}
+        </div>
+      )}
+
       <Dashboard />
 
-     <WidgetNav
+      <WidgetNav
         profileIcon={profileIcon}
         role={role}
         username={username}
-    />
+        method={method}
+      />
     </div>
   );
 };

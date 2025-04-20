@@ -81,6 +81,47 @@ body {
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 0 -2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
 }
 
+/* Tab switcher */
+.method-switcher {
+  display: flex;
+  margin: 16px 0;
+}
+.method-switcher button {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.method-switcher button.active {
+  background: var(--primary-green);
+  color: black;
+}
+
+/* Internet Identity flow */
+.ii-flow {
+  text-align: center;
+  margin: 16px 0;
+}
+.ii-btn {
+  background: #f5f5f5;
+  color: black;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Form styling (reuse prior styles) */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 button {
   background-color: #f1c40f;
   border: none;
@@ -283,47 +324,81 @@ button {
   font-style: italic;
 }
 
-.balance-section {
-  background: white;
-  border: 2px solid black;
-  border-radius: 12px;
-  padding: 16px;
-  color: black;
-  margin-bottom: 16px;
-}
-
-.balance-header {
+/* Stats Section */
+.stats-section .stats-grid {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stat-card {
+  flex: 1;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.stat-label { font-size: 0.85rem; }
+.stat-value { font-size: 1.25rem; font-weight: bold; }
+
+/* Live Price Chart Placeholder */
+.live-price-section .chart-placeholder {
+  height: 120px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  font-style: italic;
 }
 
-.balance-header span {
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.payment-icons img {
-  width: 40px;
-  height: 24px;
-  margin-left: 8px;
-}
-
-.balance-amount {
-  font-size: 1.5rem;
-  margin: 12px 0;
-}
-
-.top-up-btn {
-  align-self: flex-end;
-  background-color: #2ed573;
-  color: black;
+/* Top‑Up Section */
+.topup-section button {
+  margin-right: 8px;
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
+  background: var(--primary-green);
+  color: black;
   font-weight: bold;
   cursor: pointer;
 }
+
+/* Transaction History */
+.txn-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+.txn-table th,
+.txn-table td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.txn-table th { text-align: left; }
+
+/* NFT Grid */
+.nft-grid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.nft-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  min-width: 100px;
+}
+.nft-card img {
+  width: 100%;
+  border-radius: 4px;
+}
+.nft-name {
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
 
 /* ── Information List ───────────────────────────────────────────── */
 .information-section {
@@ -995,3 +1070,4 @@ body {
     margin: auto;
   }
 }
+

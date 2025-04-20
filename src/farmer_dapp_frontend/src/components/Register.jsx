@@ -4,18 +4,16 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const Register = () => {
-  const { role } = useParams();
-  const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
-  const navigate = useNavigate();
+  const { role }      = useParams();
+  const roleLabel     = role.charAt(0).toUpperCase() + role.slice(1);
+  const navigate      = useNavigate();
+  const isGuest       = role === 'guest';
 
-  const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+  // Two methods: 'ii' (Internet Identity) or 'email'
+  const [method, setMethod] = useState('ii');
+  const [form, setForm]     = useState({
+    username: '', email: '', password: '', confirmPassword: ''
   });
-  const [showPass, setShowPass] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [errors, setErrors] = useState({});
 
   const validate = () => {
@@ -28,17 +26,33 @@ const Register = () => {
   };
 
   const handleChange = (e) =>
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmitEmail = (e) => {
     e.preventDefault();
     const e2 = validate();
     setErrors(e2);
     if (Object.keys(e2).length === 0) {
-      // → call your backend/register logic here…
-      navigate('/home', { state: { role, username: form.username } });
+      // TODO: call backend/register
+      navigate('/home', {
+         state: { role, username: form.username, method: 'email' },
+     });
     }
   };
+
+  const handleII = () => {
+      // TODO: integrate DFINITY II SDK and grab the principal as username
+      const principal = 'abcd-4ya6g-iaaaa-aaaaa-cai'; // mock example
+      navigate('/home', {
+        state: { role, username: principal, method: 'ii' },
+      });
+    };
+
+  if (isGuest) {
+    // Guests skip Register
+    navigate('/home', { replace: true, state: { role, username: 'Guest' } });
+    return null;
+  }
 
   return (
     <div className="welcome-container">
@@ -46,72 +60,78 @@ const Register = () => {
       <img src={logo} alt="Logo" className="logo" />
       <h2>Welcome {roleLabel}</h2>
 
-      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-        {/* Username */}
-        <div className="input-wrapper">
-          <input
-            name="username"
-            placeholder="Username"
-            className="input-field"
-            value={form.username}
-            onChange={handleChange}
-          />
-          {errors.username && <small>{errors.username}</small>}
-        </div>
+      {/* Method Switcher */}
+      <div className="method-switcher">
+        <button
+          className={method === 'ii' ? 'active' : ''}
+          onClick={() => setMethod('ii')}
+        >Internet Identity</button>
+        <button
+          className={method === 'email' ? 'active' : ''}
+          onClick={() => setMethod('email')}
+        >Email & Password</button>
+      </div>
 
-        {/* Email */}
-        <div className="input-wrapper">
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            className="input-field"
-            value={form.email}
-            onChange={handleChange}
-          />
-          {errors.email && <small>{errors.email}</small>}
+      {/* Internet Identity Flow */}
+      {method === 'ii' ? (
+        <div className="ii-flow">
+          <p>Register using your Internet Identity</p>
+          <button className="ii-btn" onClick={handleII}>
+            Sign up with II
+          </button>
         </div>
+      ) : (
+        <form onSubmit={handleSubmitEmail} className="auth-form">
+          <div className="input-wrapper">
+            <input
+              name="username"
+              placeholder="Username"
+              className="input-field"
+              value={form.username}
+              onChange={handleChange}
+            />
+            {errors.username && <small>{errors.username}</small>}
+          </div>
 
-        {/* Password */}
-        <div className="input-wrapper">
-          <input
-            name="password"
-            type={showPass ? 'text' : 'password'}
-            placeholder="Password"
-            className="input-field"
-            value={form.password}
-            onChange={handleChange}
-          />
-          <span
-            className="toggle-icon"
-            onClick={() => setShowPass((v) => !v)}
-          >
-            {showPass ? '🔓' : '🔒'}
-          </span>
-          {errors.password && <small>{errors.password}</small>}
-        </div>
+          <div className="input-wrapper">
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              className="input-field"
+              value={form.email}
+              onChange={handleChange}
+            />
+            {errors.email && <small>{errors.email}</small>}
+          </div>
 
-        {/* Confirm Password */}
-        <div className="input-wrapper">
-          <input
-            name="confirmPassword"
-            type={showConfirm ? 'text' : 'password'}
-            placeholder="Confirm Password"
-            className="input-field"
-            value={form.confirmPassword}
-            onChange={handleChange}
-          />
-          <span
-            className="toggle-icon"
-            onClick={() => setShowConfirm((v) => !v)}
-          >
-            {showConfirm ? '🔓' : '🔒'}
-          </span>
-          {errors.confirmPassword && <small>{errors.confirmPassword}</small>}
-        </div>
+          <div className="input-wrapper">
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="input-field"
+              value={form.password}
+              onChange={handleChange}
+            />
+            {errors.password && <small>{errors.password}</small>}
+          </div>
 
-        <button type="submit">Register</button>
-      </form>
+          <div className="input-wrapper">
+            <input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              className="input-field"
+              value={form.confirmPassword}
+              onChange={handleChange}
+            />
+            {errors.confirmPassword && <small>{errors.confirmPassword}</small>}
+          </div>
+
+          <button type="submit">Register</button>
+        </form>
+      )}
 
       <p style={{ marginTop: 'auto' }}>
         Already have an account?{' '}
