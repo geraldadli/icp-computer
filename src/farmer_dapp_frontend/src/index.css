@@ -324,7 +324,7 @@ button {
   font-style: italic;
 }
 
-/* ---------------- Stats Section ---------------- */
+/* Stats Section */
 .stats-section .stats-grid {
   display: flex;
   gap: 12px;
@@ -336,20 +336,11 @@ button {
   border-radius: 8px;
   padding: 12px;
   text-align: center;
-  /* inherit text color from theme */
-  color: var(--text-color);
 }
-.stat-label {
-  font-size: 0.85rem;
-  color: var(--text-color);
-}
-.stat-value {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--text-color);
-}
+.stat-label { font-size: 0.85rem; }
+.stat-value { font-size: 1.25rem; font-weight: bold; }
 
-/* ------------ Live Price Chart Placeholder ----------- */
+/* Live Price Chart Placeholder */
 .live-price-section .chart-placeholder {
   height: 120px;
   background: rgba(255,255,255,0.1);
@@ -358,49 +349,43 @@ button {
   align-items: center;
   justify-content: center;
   font-style: italic;
-  color: var(--text-color);
 }
 
-/* ---------------- Top‑Up Buttons ------------------- */
+/* Top‑Up Section */
 .topup-section button {
   margin-right: 8px;
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
   background: var(--primary-green);
-  color: var(--card-text);
+  color: black;
   font-weight: bold;
   cursor: pointer;
 }
 
-/* ------------- Transaction History ----------------- */
+/* ─── Transaction Table: Default to theme text color ─────────── */
 .txn-table {
   width: 100%;
   border-collapse: collapse;
-  color: var(--text-color);
+  color: white;
 }
 .txn-table th,
 .txn-table td {
   padding: 8px;
-  border-bottom: 1px solid var(--border-color);
-}
-.txn-table th {
-  text-align: left;
-  color: var(--text-color);
+  /* use theme var for Light vs Dark */
+  color: var(--text-color) !important;
 }
 
-/* Amount coloring: keep negative red, positive green but text itself follows theme */
-.txn-table td:nth-child(3) {
-  color: inherit; /* let theme override if needed */
+/* ─── Positive / Negative Overrides ───────────────────────────── */
+.txn-table td[data-negative] {
+  color: salmon !important;
 }
-.txn-table td:nth-child(3)[data-negative] {
-  color: salmon;
-}
-.txn-table td:nth-child(3)[data-positive] {
-  color: lightgreen;
+.txn-table td[data-positive] {
+  color: lightgreen !important;
 }
 
-/* --------------- NFT Showcase ---------------------- */
+
+/* NFT Grid */
 .nft-grid {
   display: flex;
   gap: 12px;
@@ -421,9 +406,7 @@ button {
 .nft-name {
   margin-top: 4px;
   font-size: 0.85rem;
-  color: var(--text-color);
 }
-
 
 
 /* ── Information List ───────────────────────────────────────────── */
