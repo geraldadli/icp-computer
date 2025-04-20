@@ -103,9 +103,13 @@ export default function Cash() {
                 <tr key={tx.id}>
                   <td>{tx.date}</td>
                   <td>{tx.type}</td>
-                  <td style={{ color: tx.amount < 0 ? 'salmon' : 'lightgreen' }}>
+                  <td
+                    data-negative={tx.amount < 0 ? true : undefined}
+                    data-positive={tx.amount > 0 ? true : undefined}
+                  >
                     {tx.amount > 0 ? '+' : ''}{tx.amount}
                   </td>
+
                   <td>{tx.status}</td>
                 </tr>
               ))}
