@@ -6,10 +6,17 @@ import WidgetNav from './WidgetNav';
 
 // MOCK DATA
 const mockStats = {
-  icpPriceUSD: 5.23,
-  yourICP: 120.45,
-  marketCap: '1.3B USD',
+  balance: 6969.0,
+  delta: 365.17,
+  pct: 5.24,
 };
+
+const mockTokens = [
+  { id:1, symbol:'SOL',  name:'Solana',   usd:2967.57, amt:11.85, change:'+6.02%' },
+  { id:2, symbol:'USDC', name:'USDC',     usd:699.96, amt:699.96, change:'+0.01%' },
+  { id:3, symbol:'BONK', name:'Bonk',     usd:486.54, amt:34752857.14, change:'+2.03%' },
+  { id:4, symbol:'RAY',  name:'Raydium',  usd:213.25, amt:67.18, change:'+4.24%' },
+];
 
 const mockTransactions = [
   { id: 1, date: '2025-04-20', type: 'Send ICP',    amount: -10.0, status: 'Confirmed' },
@@ -19,29 +26,23 @@ const mockTransactions = [
 ];
 
 const mockNFTs = [
-  { id: 1, name: 'Farmer #1024',   image: 'https://via.placeholder.com/100?text=NFT+1' },
-  { id: 2, name: 'Harvest #2048',  image: 'https://via.placeholder.com/100?text=NFT+2' },
-  { id: 3, name: 'Farmhouse #3072',image: 'https://via.placeholder.com/100?text=NFT+3' },
+  { id: 1, name: 'Farmer #1024',    image: 'https://via.placeholder.com/100?text=NFT+1' },
+  { id: 2, name: 'Harvest #2048',   image: 'https://via.placeholder.com/100?text=NFT+2' },
+  { id: 3, name: 'Farmhouse #3072', image: 'https://via.placeholder.com/100?text=NFT+3' },
 ];
 
 export default function Cash() {
-  const { state } = useLocation();
-  const navigate  = useNavigate();
+  const { state }    = useLocation();
+  const navigate     = useNavigate();
+  const role         = (state?.role || 'guest').toLowerCase();
+  const username     = state?.username || 'Guest';
+  const method       = state?.method   || 'email';
+  const profileIcon  = method === 'ii' ? '🆔' : role === 'guest' ? '❓' : '👤';
 
-  const role     = (state?.role     || 'guest').toLowerCase();
-  const username = state?.username || 'Guest';
-  const method   = state?.method   || 'email';
-  const profileIcon = method === 'ii'
-    ? '🆔'
-    : role === 'guest'
-      ? '❓'
-      : '👤';
-
-  const [filter, setFilter] = useState('General');
-
-  const handleMenu     = () => {};
   const handleSettings = () =>
     navigate('/settings', { state });
+
+  const totalTokensUSD = mockTokens.reduce((sum, t) => sum + t.usd, 0);
 
   return (
     <div className="home-container">
@@ -51,46 +52,77 @@ export default function Cash() {
       <NavBar
         greeting="Wallet"
         profileIcon={profileIcon}
-        onMenu={handleMenu}
+        onMenu={() => {}}
         onSettings={handleSettings}
       />
 
       <div className="dashboard-content">
 
-        {/* 1) Stats Section */}
-        <div className="section stats-section">
-          <h3>ICP Stats</h3>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-label">Current Price</div>
-              <div className="stat-value">${mockStats.icpPriceUSD}</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-label">Your ICP Balance</div>
-              <div className="stat-value">{mockStats.yourICP} ICP</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-label">Market Cap</div>
-              <div className="stat-value">{mockStats.marketCap}</div>
-            </div>
+        {/* 1) Main Wallet Card */}
+        <div className="wallet-card">
+          <div className="wallet-card-top">
+            <div className="profile-avatar-small">{profileIcon}</div>
+            <div className="wallet-title">Main Wallet</div>
+            <button className="qr-btn" onClick={() => alert('Show QR')}>
+              🔳
+            </button>
+          </div>
+          <div className="wallet-balance">
+            ${mockStats.balance.toLocaleString(undefined, { minimumFractionDigits:2 })}
+          </div>
+          <div className="wallet-change">
+            +${mockStats.delta.toLocaleString(undefined,{minimumFractionDigits:2})} (+{mockStats.pct}%)
           </div>
         </div>
 
-        {/* 2) Live Price Dashboard Placeholder */}
-        <div className="section live-price-section">
-          <h3>Live Price Chart</h3>
-          <div className="chart-placeholder">[Chart goes here]</div>
+        {/* 2) Action Buttons Row */}
+        <div className="action-buttons">
+          {[
+            { key:'receive', icon:'⬇️', label:'Receive' },
+            { key:'buy',     icon:'🛒', label:'Buy'     },
+            { key:'swap',    icon:'🔄', label:'Swap'    },
+            { key:'stake',   icon:'📈', label:'Stake'   },
+            { key:'send',    icon:'➡️', label:'Send'    },
+          ].map((btn) => (
+            <button
+              key={btn.key}
+              className="action-button"
+              onClick={() => alert(`${btn.label} flow`)}
+            >
+              <span className="action-icon">{btn.icon}</span>
+              <small>{btn.label}</small>
+            </button>
+          ))}
         </div>
 
-        {/* 3) Top‑Up Section */}
-        <div className="section topup-section">
-          <h3>Top Up</h3>
-          <button onClick={() => alert('Top up ICP flow')}>
-            Top up ICP
-          </button>
-          <button onClick={() => alert('Mint/Buy NFT flow')}>
-            Buy NFT
-          </button>
+        {/* 3) Tokens Section */}
+        <div className="section tokens-section">
+          <div className="section-header">
+            <span>Tokens</span>
+            <span className="tokens-value">
+              ${totalTokensUSD.toLocaleString()}
+            </span>
+            <button
+              className="view-all-btn"
+              onClick={() => alert('View all tokens')}
+            >
+              View all ›
+            </button>
+          </div>
+          <div className="token-list">
+            {mockTokens.map((t) => (
+              <div key={t.id} className="token-item">
+                <div className="token-info">
+                  <strong>{t.name}</strong>
+                  <span className="token-change">{t.change}</span>
+                </div>
+                <div className="token-values">
+                  <div>${t.usd.toLocaleString()}</div>
+                  <div>{t.amt.toLocaleString()} {t.symbol}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* 4) Transaction History */}
@@ -107,13 +139,10 @@ export default function Cash() {
                 <tr key={tx.id}>
                   <td>{tx.date}</td>
                   <td>{tx.type}</td>
-                  <td
-                    data-negative={tx.amount < 0 ? true : undefined}
-                    data-positive={tx.amount > 0 ? true : undefined}
-                  >
-                    {tx.amount > 0 ? '+' : ''}{tx.amount}
+                  <td data-negative={tx.amount<0 ? true:undefined}
+                      data-positive={tx.amount>0?true:undefined}>
+                    {tx.amount>0?'+':''}{tx.amount}
                   </td>
-
                   <td>{tx.status}</td>
                 </tr>
               ))}
@@ -143,5 +172,5 @@ export default function Cash() {
         method={method}
       />
     </div>
-  );
+);
 }

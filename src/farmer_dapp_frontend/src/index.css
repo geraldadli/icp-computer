@@ -340,64 +340,161 @@ button {
 .stat-label { font-size: 0.85rem; }
 .stat-value { font-size: 1.25rem; font-weight: bold; }
 
-/* Live Price Chart Placeholder */
-.live-price-section .chart-placeholder {
-  height: 120px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+/* ─── Main Wallet Card ───────────────────────────────────── */
+.wallet-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  margin: 16px;
+  padding: 16px;
+  color: var(--card-text);
+}
+.wallet-card-top {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-style: italic;
+  justify-content: space-between;
 }
-
-/* Top‑Up Section */
-.topup-section button {
-  margin-right: 8px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  background: var(--primary-green);
-  color: black;
+.profile-avatar-small {
+  font-size: 1.5rem;
+}
+.wallet-title {
+  flex: 1;
+  text-align: center;
   font-weight: bold;
+}
+.qr-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
   cursor: pointer;
 }
+.wallet-balance {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 8px 0;
+}
+.wallet-change {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.7);
+}
 
-/* ─── Transaction Table: Default to theme text color ─────────── */
+/* ─── Action Buttons Row ─────────────────────────────────── */
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+.action-button {
+  background: var(--overlay-bg);
+  border: none;
+  border-radius: 12px;
+  flex: 1;
+  margin: 0 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.action-icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+.action-button small {
+  font-size: 0.75rem;
+  color: var(--text-color);
+}
+
+/* ─── Tokens Section ─────────────────────────────────────── */
+.tokens-section .section-header {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+.tokens-section .section-header span {
+  margin-right: 8px;
+  color: var(--text-color);
+}
+.tokens-value {
+  font-weight: bold;
+}
+.view-all-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--primary-green);
+  cursor: pointer;
+}
+.token-list {
+  display: flex;
+  overflow-x: auto;
+  padding: 0 16px 12px;
+}
+.token-item {
+  flex: 0 0 auto;
+  width: 140px;
+  margin-right: 12px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 8px;
+  color: var(--card-text);
+}
+.token-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.token-change {
+  font-size: 0.8rem;
+  color: var(--primary-green);
+}
+.token-values {
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+
+/* ─── Transaction History ────────────────────────────────── */
+.transaction-section h3 {
+  padding: 0 16px;
+  color: var(--text-color);
+}
 .txn-table {
   width: 100%;
   border-collapse: collapse;
-  color: white;
+  margin: 0 16px 16px;
+  color: var(--text-color);
 }
 .txn-table th,
 .txn-table td {
   padding: 8px;
-  /* use theme var for Light vs Dark */
-  color: var(--text-color) !important;
+  border-bottom: 1px solid var(--border-color);
 }
-
-/* ─── Positive / Negative Overrides ───────────────────────────── */
 .txn-table td[data-negative] {
-  color: salmon !important;
+  color: salmon;
 }
 .txn-table td[data-positive] {
-  color: lightgreen !important;
+  color: lightgreen;
 }
 
-
-/* NFT Grid */
+/* ─── NFT Showcase ──────────────────────────────────────── */
+.nft-section h3 {
+  padding: 0 16px;
+  color: var(--text-color);
+}
 .nft-grid {
   display: flex;
-  gap: 12px;
   overflow-x: auto;
-  padding-bottom: 8px;
+  padding: 0 16px 16px;
 }
 .nft-card {
-  background: rgba(255,255,255,0.1);
+  flex: 0 0 auto;
+  width: 100px;
+  margin-right: 12px;
+  background: var(--card-bg);
   border-radius: 8px;
-  padding: 8px;
   text-align: center;
-  min-width: 100px;
+  padding: 8px;
 }
 .nft-card img {
   width: 100%;
@@ -405,9 +502,9 @@ button {
 }
 .nft-name {
   margin-top: 4px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  color: var(--text-color);
 }
-
 
 /* ── Information List ───────────────────────────────────────────── */
 .information-section {
