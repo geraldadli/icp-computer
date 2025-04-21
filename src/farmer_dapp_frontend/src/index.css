@@ -506,6 +506,125 @@ button {
   color: var(--text-color);
 }
 
+/* ─── In‑page back arrow ───────────────────────────────────── */
+.page-back-wrapper {
+  padding: 0 16px;
+  margin-top: 8px;
+}
+.page-back {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+/* ─── Receive Page ─────────────────────────────────────────── */
+.receive-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+.receive-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-color);
+}
+.receive-title {
+  margin-top: 16px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.wallet-id {
+  margin: 8px 0 16px;
+  font-family: monospace;
+  word-break: break-all;
+  font-size: 0.9rem;
+}
+.receive-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.receive-btn {
+  background: var(--primary-green);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--card-text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.receive-btn:hover {
+  opacity: 0.9;
+}
+
+
+/* ─── Buy Crypto Page ─────────────────────────────────────── */
+/* ─── Ensure Buy page uses theme background ─────────────── */
+.buy-content,
+.receive-container {
+  background: var(--bg);
+}
+
+/* Adjust .buy-container if you have one */
+.buy-container {
+  background: #e0e0e0; /* light grey */
+  min-height: 100vh;
+}
+
+
+.buy-row {
+  margin-bottom: 16px;
+}
+.buy-label {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+.buy-input-group {
+  display: flex;
+  gap: 8px;
+}
+.buy-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+.currency-select,
+.pay-select {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.rate-row {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-bottom: 24px;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 14px 0;
+  background: var(--primary-green);
+  color: var(--card-text);
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
 /* ── Information List ───────────────────────────────────────────── */
 .information-section {
   background: white;

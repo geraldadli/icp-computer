@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/components/Cash.jsx
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import NavBar    from './NavBar';
@@ -7,8 +8,8 @@ import WidgetNav from './WidgetNav';
 // MOCK DATA
 const mockStats = {
   balance: 6969.0,
-  delta: 365.17,
-  pct: 5.24,
+  delta:   365.17,
+  pct:     5.24,
 };
 
 const mockTokens = [
@@ -32,17 +33,31 @@ const mockNFTs = [
 ];
 
 export default function Cash() {
-  const { state }    = useLocation();
-  const navigate     = useNavigate();
-  const role         = (state?.role || 'guest').toLowerCase();
-  const username     = state?.username || 'Guest';
-  const method       = state?.method   || 'email';
-  const profileIcon  = method === 'ii' ? '🆔' : role === 'guest' ? '❓' : '👤';
+  const { state }  = useLocation();
+  const navigate   = useNavigate();
+
+  const role        = (state?.role     || 'guest').toLowerCase();
+  const username    = state?.username || 'Guest';
+  const method      = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const handleSettings = () =>
     navigate('/settings', { state });
 
   const totalTokensUSD = mockTokens.reduce((sum, t) => sum + t.usd, 0);
+
+  // Define your action buttons with target routes
+  const actions = [
+    { key:'receive', icon:'⬇️', label:'Receive', route:'/receive' },
+    { key:'buy',     icon:'🛒', label:'Buy',     route:'/buy'     },
+    { key:'swap',    icon:'🔄', label:'Swap',    route:'/swap'    },
+    { key:'stake',   icon:'📈', label:'Stake',   route:'/stake'   },
+    { key:'send',    icon:'➡️', label:'Send',    route:'/send'    },
+  ];
 
   return (
     <div className="home-container">
@@ -63,7 +78,11 @@ export default function Cash() {
           <div className="wallet-card-top">
             <div className="profile-avatar-small">{profileIcon}</div>
             <div className="wallet-title">Main Wallet</div>
-            <button className="qr-btn" onClick={() => alert('Show QR')}>
+            {/* QR now routes to /receive */}
+            <button
+              className="qr-btn"
+              onClick={() => navigate('/receive', { state })}
+            >
               🔳
             </button>
           </div>
@@ -77,17 +96,11 @@ export default function Cash() {
 
         {/* 2) Action Buttons Row */}
         <div className="action-buttons">
-          {[
-            { key:'receive', icon:'⬇️', label:'Receive' },
-            { key:'buy',     icon:'🛒', label:'Buy'     },
-            { key:'swap',    icon:'🔄', label:'Swap'    },
-            { key:'stake',   icon:'📈', label:'Stake'   },
-            { key:'send',    icon:'➡️', label:'Send'    },
-          ].map((btn) => (
+          {actions.map((btn) => (
             <button
               key={btn.key}
               className="action-button"
-              onClick={() => alert(`${btn.label} flow`)}
+              onClick={() => navigate(btn.route, { state })}
             >
               <span className="action-icon">{btn.icon}</span>
               <small>{btn.label}</small>
@@ -104,7 +117,7 @@ export default function Cash() {
             </span>
             <button
               className="view-all-btn"
-              onClick={() => alert('View all tokens')}
+              onClick={() => navigate('/tokens', { state })}
             >
               View all ›
             </button>
@@ -139,9 +152,11 @@ export default function Cash() {
                 <tr key={tx.id}>
                   <td>{tx.date}</td>
                   <td>{tx.type}</td>
-                  <td data-negative={tx.amount<0 ? true:undefined}
-                      data-positive={tx.amount>0?true:undefined}>
-                    {tx.amount>0?'+':''}{tx.amount}
+                  <td
+                    data-negative={tx.amount < 0 ? true : undefined}
+                    data-positive={tx.amount > 0 ? true : undefined}
+                  >
+                    {tx.amount > 0 ? '+' : ''}{tx.amount}
                   </td>
                   <td>{tx.status}</td>
                 </tr>
@@ -162,6 +177,7 @@ export default function Cash() {
             ))}
           </div>
         </div>
+
       </div>
 
       {/* Bottom Nav */}
@@ -172,5 +188,5 @@ export default function Cash() {
         method={method}
       />
     </div>
-);
+  );
 }
