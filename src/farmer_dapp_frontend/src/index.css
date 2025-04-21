@@ -1175,6 +1175,12 @@ option { background-color: var(--card-bg) !important; }
   width: 100%;
   text-align: center;
 }
+#qr-reader {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 24px;
+}
+
 
 /* ── Information List ───────────────────────────────────────────── */
 .information-section {

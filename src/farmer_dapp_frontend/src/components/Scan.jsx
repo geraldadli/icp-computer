@@ -1,39 +1,62 @@
-import React, { useState, useRef, useEffect } from 'react';
+// src/components/Scan.jsx
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import NavBar    from './NavBar';
 import WidgetNav from './WidgetNav';
+import { Html5Qrcode } from 'html5-qrcode';
 
 export default function Scan() {
-  const { state }   = useLocation();
-  const navigate    = useNavigate();
-  const videoRef    = useRef(null);
-
-  const [granted, setGranted] = useState(false);
-  const [error,   setError]   = useState('');
+  const { state }    = useLocation();
+  const navigate     = useNavigate();
 
   const role        = (state?.role     || 'guest').toLowerCase();
   const username    = state?.username || 'Guest';
   const method      = state?.method   || 'email';
-  const profileIcon = method === 'ii' ? '🆔' : role==='guest'?'❓':'👤';
+  const profileIcon = method==='ii'?'🆔':role==='guest'?'❓':'👤';
 
-  // request camera
-  const enableCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      videoRef.current.srcObject = stream;
-      setGranted(true);
-    } catch (e) {
-      setError('Camera permission denied.');
-    }
-  };
+  const [permissionDenied, setPermissionDenied] = useState(false);
+  const scannerRef = useRef(null);
+
+  useEffect(() => {
+    Html5Qrcode.getCameras()
+      .then(devices => {
+        if (devices && devices.length) {
+          const cameraId = devices[0].id;
+          const html5Qr = new Html5Qrcode(/* element id = */ "qr-reader");
+          scannerRef.current = html5Qr;
+          html5Qr.start(
+            cameraId,
+            { fps: 10, qrbox: 250 },
+            (decodedText) => {
+              // once we get a result, stop scanning and navigate back
+              html5Qr.stop().then(() => {
+                navigate('/send', {
+                  state: { ...state, toAddr: decodedText }
+                });
+              });
+            },
+            (error) => {
+              /* ignore scan errors for now */
+            }
+          ).catch(err => {
+            console.error("QR start failed", err);
+            setPermissionDenied(true);
+          });
+        }
+      })
+      .catch(_ => setPermissionDenied(true));
+
+    return () => {
+      // cleanup on unmount
+      if (scannerRef.current) {
+        scannerRef.current.stop().catch(() => {});
+      }
+    };
+  }, [navigate, state]);
 
   const goBack = () => {
-    // stop camera on leave
-    if (videoRef.current && videoRef.current.srcObject) {
-      videoRef.current.srcObject.getTracks().forEach(t => t.stop());
-    }
-    navigate(-1); // back to Send
+    if (scannerRef.current) scannerRef.current.stop().catch(() => {});
+    navigate(-1);
   };
 
   return (
@@ -47,27 +70,19 @@ export default function Scan() {
         onSettings={() => navigate('/settings', { state })}
       />
 
-      {/* In‑page back */}
+      {/* in‑page back */}
       <div className="page-back-wrapper">
         <button className="page-back" onClick={goBack}>← Back</button>
       </div>
 
       <div className="dashboard-content scan-container">
-        {!granted ? (
-          <button className="enable-camera-btn" onClick={enableCamera}>
-            Enable Camera Access
-          </button>
+        {permissionDenied ? (
+          <p style={{ color: 'var(--text-color)', textAlign: 'center' }}>
+            Camera access denied.<br/>
+            Please enable it in your browser settings.
+          </p>
         ) : (
-          <>
-            {error && <div className="error-row">{error}</div>}
-            <video
-              ref={videoRef}
-              className="qr-video"
-              autoPlay
-              muted
-              playsInline
-            />
-          </>
+          <div id="qr-reader" style={{ width: '100%' }} />
         )}
       </div>
 
