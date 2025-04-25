@@ -16,7 +16,7 @@ const Profile = () => {
   const handleChangePass = () =>
     navigate(`/${role}/change-password`, { state: { role, username } });
   const handleSignIn     = () =>
-    navigate(`/${role}/login`,   { state: { role, username } });
+    navigate('/roles');
   const handleLeave      = () =>
     navigate('/roles');
 

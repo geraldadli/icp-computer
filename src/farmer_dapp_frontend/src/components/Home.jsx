@@ -5,8 +5,6 @@ import NavBar    from './NavBar';
 import WidgetNav from './WidgetNav';
 import FarmerDashboard from './FarmerDashboard';
 import BuyerDashboard  from './BuyerDashboard';
-
-
 const Home = () => {
   const { state } = useLocation();
   const navigate    = useNavigate();
@@ -14,13 +12,13 @@ const Home = () => {
   // always lowercase for the lookup
   const role        = (state?.role || 'guest').toLowerCase();
   // now pulled from state
-  const username    = state?.username || 'Guest';
+  const username    = state?.username || 'Guest     ';
 
   // Proper role label (e.g. “Farmer” → “Farmer’s”)
-  const roleLabel   = role.charAt(0).toUpperCase() + role.slice(1) + `'s`;
+  // const roleLabel   = role.charAt(0).toUpperCase() + role.slice(1) + `'s`;
 
   // New greeting: no more “Guest” for non‑guests
-  const greeting    = `Hi, ${username} `;
+  const greeting    = `Hi, ${username}!`;
 
   const profileIcon = role === 'guest' ? '❓' : '👤';
 

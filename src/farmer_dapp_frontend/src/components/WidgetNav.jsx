@@ -1,45 +1,32 @@
-// src/components/WidgetNav.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const WidgetNav = ({ profileIcon, role, username }) => {
   const nav = useNavigate();
+  const state = { state: { role, username } };
 
   return (
     <div className="widget-nav">
-      <button
-        className="widget-button"
-        onClick={() =>
-          nav('/home', { state: { role, username } })
-        }
-      >
+      <button onClick={() => nav('/home', state)} className="widget-button">
         <span>🏠</span>
         <small>Home</small>
       </button>
-      <button
-        className="widget-button"
-        onClick={() =>
-          nav('/cash', { state: { role, username } })
-        }
-      >
-        <span>💰</span>
-        <small>Cash</small>
+
+      <button onClick={() => nav('/cash', state)} className="widget-button">
+        <span>💳</span>
+        <small>Wallet</small>
       </button>
-      <button
-        className="widget-button"
-        onClick={() =>
-          nav('/mail', { state: { role, username } })
-        }
-      >
+
+      <button onClick={() => nav('/shop', state)} className="widget-button cart">
+        <span>🛒</span>
+      </button>
+
+      <button onClick={() => nav('/mail', state)} className="widget-button">
         <span>✉️</span>
-        <small>Mail</small>
+        <small>Notification</small>
       </button>
-      <button
-        className="widget-button"
-        onClick={() =>
-          nav('/profile', { state: { role, username } })
-        }
-      >
+
+      <button onClick={() => nav('/profile', state)} className="widget-button">
         <span>{profileIcon}</span>
         <small>Profile</small>
       </button>

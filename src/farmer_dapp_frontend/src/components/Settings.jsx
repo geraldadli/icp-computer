@@ -1,23 +1,30 @@
 // src/components/Settings.jsx
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WidgetNav from './WidgetNav';
+import { ThemeContext } from '../ThemeContext';
 
 const Settings = () => {
   const { state } = useLocation();
   const navigate    = useNavigate();
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
+
+  const handleBack = () => navigate(-1);
 
   const role     = (state?.role || 'guest').toLowerCase();
   const username = state?.username || 'Guest';
   const profileIcon = role === 'guest' ? '❓' : '👤';
 
-  const [darkMode, setDarkMode] = useState(false);
+  const items = [
+    { key: 'account',      label: 'Account',      path: 'account' },
+    { key: 'activity',     label: 'Activity',     path: 'activity' },
+    { key: 'notification', label: 'Notification', path: 'notification' },
+    { key: 'language',     label: 'Language',     path: 'language' },
+    { key: 'privacy',      label: 'Privacy',      path: 'privacy' },
+  ];
 
-  const handleBack = () => navigate(-1);
-  const optionClick = (opt) => {
-    // for now: just console.log or wire up later
-    console.log('Selected', opt);
-  };
+  const goTo = (sub) =>
+    navigate(`/settings/${sub}`, { state: { role, username } });
 
   return (
     <div className="home-container">
@@ -30,38 +37,34 @@ const Settings = () => {
         <div style={{ width: 32 }} />
       </div>
 
-      {/* White card with options */}
+      {/* Card */}
       <div className="settings-card">
-        <div className="settings-list">
-          {['Account', 'Activity', 'Notification', 'Language', 'Privacy'].map(
-            (opt) => (
-              <div
-                key={opt}
-                className="settings-item"
-                onClick={() => optionClick(opt)}
-              >
-                <span>{opt}</span>
-                <span>›</span>
-              </div>
-            )
-          )}
-
-          {/* Mode Toggle */}
-          <div className="settings-item">
-            <span>Mode</span>
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={darkMode}
-                onChange={() => setDarkMode((v) => !v)}
-              />
-              <span className="slider" />
-            </label>
+        {/* Standard options */}
+        {items.map((i) => (
+          <div
+            key={i.key}
+            className="settings-item"
+            onClick={() => goTo(i.path)}
+          >
+            <span>{i.label}</span>
+            <span>›</span>
           </div>
+        ))}
+
+        {/* Mode toggle */}
+        <div className="settings-item">
+          <span>Mode</span>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={darkMode}
+              onChange={() => setDarkMode((v) => !v)}
+            />
+            <span className="slider" />
+          </label>
         </div>
       </div>
 
-      {/* Bottom nav */}
       <WidgetNav
         profileIcon={profileIcon}
         role={role}

@@ -15,11 +15,11 @@ const Notification = () => {
 
   // sample data; replace with real API data later
   const [notes, setNotes] = useState([
-    { id: 1, title: 'Title 1', body: 'Lorem ipsum dolor sit amet…', read: false },
-    { id: 2, title: 'Title 2', body: 'Consectetur adipiscing elit…', read: false },
-    { id: 3, title: 'Title 3', body: 'Sed do eiusmod tempor…', read: false },
-    { id: 4, title: 'Title 4', body: 'Incididunt ut labore…', read: false },
-    { id: 5, title: 'Title 5', body: 'Dolore magna aliqua…', read: false },
+    { id: 1, title: 'Title 1', body: 'Order 1', read: true },
+    { id: 2, title: 'Title 2', body: 'Order 2', read: true },
+    { id: 3, title: 'Title 3', body: 'Order 3', read: false },
+    { id: 4, title: 'Title 4', body: 'Order 4', read: false },
+    { id: 5, title: 'Title 5', body: 'Order 5', read: false },
   ]);
 
   const markRead = (id) => {
