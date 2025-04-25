@@ -8,9 +8,11 @@ const Sidebar = () => {
   const { state }         = useLocation();
   const role              = state?.role || 'guest';
   const username          = state?.username || 'Guest';
-
+  const method            = state?.method || 'email'; // <-- Add this
+  
   const close = () => setOpen(false);
-  const linkState = { state: { role, username } };
+  const linkState = { state: { role, username, method } }; // <-- Include method
+  
 
   return (
     <>

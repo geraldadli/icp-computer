@@ -7,7 +7,12 @@ const NotificationSettings = () => {
   const { state }   = useLocation();
   const navigate    = useNavigate();
   const { role, username } = state || {};
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const [muteOption, setMuteOption] = useState('off');
 
@@ -51,6 +56,7 @@ const NotificationSettings = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );

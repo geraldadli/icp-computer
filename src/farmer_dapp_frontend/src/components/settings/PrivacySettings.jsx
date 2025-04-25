@@ -7,7 +7,12 @@ const PrivacySettings = () => {
   const { state }   = useLocation();
   const navigate    = useNavigate();
   const { role, username } = state || {};
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const method   = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   const [profileVisibility, setProfileVisibility] = useState('public');
   const [dataSharing, setDataSharing]             = useState(false);
@@ -61,6 +66,7 @@ const PrivacySettings = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );

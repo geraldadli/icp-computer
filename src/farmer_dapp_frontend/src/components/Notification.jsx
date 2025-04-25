@@ -11,7 +11,12 @@ const Notification = () => {
 
   const role     = (state?.role || 'guest').toLowerCase();
   const username = state?.username || 'Guest';
-  const profileIcon = role === 'guest' ? '❓' : '👤';
+  const method    = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   // sample data; replace with real API data later
   const [notes, setNotes] = useState([
@@ -68,6 +73,7 @@ const Notification = () => {
         profileIcon={profileIcon}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );

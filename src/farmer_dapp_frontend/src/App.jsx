@@ -10,6 +10,12 @@ import Register        from './components/Register';
 import Login           from './components/Login';
 import Home            from './components/Home';
 import Cash          from './components/Cash';
+import Receive         from './components/Receive';
+import Buy from './components/Buy';
+import Swap from './components/Swap';
+import Stake from './components/Stake.jsx';
+import Send from './components/Send';
+import Scan from './components/Scan';
 import Shopping      from './components/Shopping';
 import Checkout from './components/Checkout';
 import Notification  from './components/Notification';
@@ -38,6 +44,12 @@ function App() {
         <Route path="/:role/login"    element={<Login />} />
         <Route path="/home"           element={<Home />} />
         <Route path="/cash"           element={<Cash />} />
+        <Route path="/receive"        element={<Receive />} />
+        <Route path="/buy"            element={<Buy />} />
+        <Route path="/swap"           element={<Swap />} />
+        <Route path="/stake"          element={<Stake />} />
+        <Route path="/send"           element={<Send />} />
+        <Route path="/scan"           element={<Scan />} />
         <Route path="/shop"           element={<Shopping />} />
         <Route path="/checkout"       element={<Checkout />} />
         <Route path="/mail"           element={<Notification />} />

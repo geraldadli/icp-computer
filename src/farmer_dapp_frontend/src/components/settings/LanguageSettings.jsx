@@ -8,6 +8,7 @@ const LanguageSettings = () => {
   const navigate    = useNavigate();
   const { role, username } = state || {};
   const [lang, setLang] = useState('en');
+  const method   = state?.method   || 'email';
 
   const handleBack = () => navigate(-1);
 
@@ -47,6 +48,7 @@ const LanguageSettings = () => {
         profileIcon={role === 'guest' ? '❓' : '👤'}
         role={role}
         username={username}
+        method={method}
       />
     </div>
   );

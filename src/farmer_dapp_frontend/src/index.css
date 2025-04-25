@@ -81,6 +81,47 @@ body {
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 0 -2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
 }
 
+/* Tab switcher */
+.method-switcher {
+  display: flex;
+  margin: 16px 0;
+}
+.method-switcher button {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.method-switcher button.active {
+  background: var(--primary-green);
+  color: black;
+}
+
+/* Internet Identity flow */
+.ii-flow {
+  text-align: center;
+  margin: 16px 0;
+}
+.ii-btn {
+  background: #f5f5f5;
+  color: black;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Form styling (reuse prior styles) */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 button {
   background-color: #f1c40f;
   border: none;
@@ -283,47 +324,863 @@ button {
   font-style: italic;
 }
 
-.balance-section {
-  background: white;
-  border: 2px solid black;
-  border-radius: 12px;
+/* Stats Section */
+.stats-section .stats-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stat-card {
+  flex: 1;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.stat-label { font-size: 0.85rem; }
+.stat-value { font-size: 1.25rem; font-weight: bold; }
+
+/* ─── Main Wallet Card ───────────────────────────────────── */
+.wallet-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  margin: 16px;
   padding: 16px;
-  color: black;
+  color: var(--card-text);
+}
+.wallet-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profile-avatar-small {
+  font-size: 1.5rem;
+}
+.wallet-title {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+.qr-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.wallet-balance {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 8px 0;
+}
+.wallet-change {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ─── Action Buttons Row ─────────────────────────────────── */
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 16px;
   margin-bottom: 16px;
 }
+.action-button {
+  background: var(--overlay-bg);
+  border: none;
+  border-radius: 12px;
+  flex: 1;
+  margin: 0 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.action-icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+.action-button small {
+  font-size: 0.75rem;
+  color: var(--text-color);
+}
 
-.balance-header {
+/* ─── Tokens Section ─────────────────────────────────────── */
+.tokens-section .section-header {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+.tokens-section .section-header span {
+  margin-right: 8px;
+  color: var(--text-color);
+}
+.tokens-value {
+  font-weight: bold;
+}
+.view-all-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--primary-green);
+  cursor: pointer;
+}
+.token-list {
+  display: flex;
+  overflow-x: auto;
+  padding: 0 16px 12px;
+}
+.token-item {
+  flex: 0 0 auto;
+  width: 140px;
+  margin-right: 12px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 8px;
+  color: var(--card-text);
+}
+.token-info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 4px;
+}
+.token-change {
+  font-size: 0.8rem;
+  color: var(--primary-green);
+}
+.token-values {
+  font-size: 0.85rem;
+  color: var(--text-color);
 }
 
-.balance-header span {
-  font-weight: bold;
+/* ─── Transaction History ────────────────────────────────── */
+.transaction-section h3 {
+  padding: 0 16px;
+  color: var(--text-color);
+}
+.txn-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 16px 16px;
+  color: var(--text-color);
+}
+.txn-table th,
+.txn-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+.txn-table td[data-negative] {
+  color: salmon;
+}
+.txn-table td[data-positive] {
+  color: lightgreen;
+}
+
+/* ─── NFT Showcase ──────────────────────────────────────── */
+.nft-section h3 {
+  padding: 0 16px;
+  color: var(--text-color);
+}
+.nft-grid {
+  display: flex;
+  overflow-x: auto;
+  padding: 0 16px 16px;
+}
+.nft-card {
+  flex: 0 0 auto;
+  width: 100px;
+  margin-right: 12px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  text-align: center;
+  padding: 8px;
+}
+.nft-card img {
+  width: 100%;
+  border-radius: 4px;
+}
+.nft-name {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--text-color);
+}
+
+/* ─── In‑page back arrow ───────────────────────────────────── */
+.page-back-wrapper {
+  padding: 0 16px;
+  margin-top: 8px;
+}
+.page-back {
+  background: none;
+  border: none;
+  color: var(--text-color);
   font-size: 1rem;
+  cursor: pointer;
+}
+/* ─── Receive Page ─────────────────────────────────────────── */
+.receive-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+.receive-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-color);
+}
+.receive-title {
+  margin-top: 16px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.wallet-id {
+  margin: 8px 0 16px;
+  font-family: monospace;
+  word-break: break-all;
+  font-size: 0.9rem;
+}
+.receive-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.receive-btn {
+  background: var(--primary-green);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--card-text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.receive-btn:hover {
+  opacity: 0.9;
 }
 
-.payment-icons img {
-  width: 40px;
-  height: 24px;
+
+/* ─── Buy Crypto Page ─────────────────────────────────────── */
+/* ─── Ensure Buy page uses theme background ─────────────── */
+.buy-content,
+.receive-container {
+  background: var(--bg);
+}
+
+/* Adjust .buy-container if you have one */
+.buy-container {
+  background: #e0e0e0; /* light grey */
+  min-height: 100vh;
+}
+
+
+.buy-row {
+  margin-bottom: 16px;
+}
+.buy-label {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+.buy-input-group {
+  display: flex;
+  gap: 8px;
+}
+.buy-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+.currency-select,
+.pay-select {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.rate-row {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-bottom: 24px;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 14px 0;
+  background: var(--primary-green);
+  color: var(--card-text);
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* ─── Pill‐style Swap/Limit toggle ───────────────────────── */
+.pill-toggle {
+  display: flex;
+  background: var(--overlay-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 16px;
+}
+.pill-btn {
+  flex: 1;
+  padding: 8px 0;
+  font-weight: 500;
+  color: var(--text-color-inactive, #888);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.pill-btn.active {
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+/* ─── Order Tabs style ─────────────────────────────────── */
+.order-tabs {
+  display: flex;
+  margin-top: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+.order-tab {
+  flex: 1;
+  padding: 12px 0;
+  text-align: center;
+  color: var(--text-color-inactive, #888);
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+}
+.order-tab.active {
+  color: var(--primary-green);
+}
+.order-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 20%;
+  width: 60%;
+  height: 3px;
+  background: var(--primary-green);
+  border-radius: 2px;
+}
+
+/* ─── Order content ───────────────────────────────────── */
+.order-content {
+  padding: 24px 16px;
+}
+.empty-label {
+  text-align: center;
+  color: var(--text-color-inactive, #888);
+  font-size: 0.95rem;
+}
+
+/* ─── Refinements for swap/limit layout ────────────────── */
+.swap-container {
+  padding-bottom: 80px; /* space for bottom nav */
+}
+.swap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.slippage-input {
+  width: 60px;
   margin-left: 8px;
 }
 
-.balance-amount {
-  font-size: 1.5rem;
-  margin: 12px 0;
+/* In‐page back button */
+.page-back-wrapper {
+  padding: 8px 16px;
+}
+.page-back {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-color);
+  cursor: pointer;
 }
 
-.top-up-btn {
-  align-self: flex-end;
-  background-color: #2ed573;
+/* ─── Pill‑shaded fields: inputs & dropdowns ─────────────── */
+.swap-section .swap-row,
+.swap-section .field-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--overlay-bg);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+/* Make the dropdowns pill‑shaped and padded */
+.swap-section select,
+.slippage-row select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Number inputs get extra large text and right alignment */
+.swap-section input[type="number"] {
+  font-size: 1.5rem;
+  text-align: right;
+  flex: 1;                      /* fill remaining space */
+}
+
+/* Read‑only fields (Buy amount, limit price) */
+.read-only,
+.limit-price-input {
+  font-size: 1.5rem;
+  text-align: right;
+  flex: 1;
+}
+
+/* Expiry dropdown styling */
+.swap-section > select,
+.swap-section > .field-container select {
+  width: 100%;
+}
+.swap-section label + select {
+  display: block;
+  margin-top: 8px;
+  background: var(--overlay-bg);
+  padding: 12px;
+  border-radius: 12px;
+}
+
+/* Slippage input shading */
+.slippage-input {
+  padding: 6px 10px;
+  border-radius: 8px;
+  width: 60px;
+  text-align: center;
+  margin-left: 8px;
+}
+/* ─── 1) Input + Select Container ───────────────────────── */
+/* These wrap your fields in overlay‑shaded pills */
+.swap-section .swap-row,
+.swap-section .field-container,
+.slippage-row,
+.limit-expiry-row {
+  background: var(--overlay-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── 2) The <select> Itself ────────────────────────────── */
+.swap-section select,
+.slippage-row select,
+.limit-expiry-row select {
+  appearance: none;               /* remove native chrome */
+  background: transparent;        /* container has the shade */
+  border: none;
+  color: var(--text-color);
+  flex: 1;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ─── 3) Force dropdown PANEL + OPTIONS to use your vars ─── */
+/* Most modern browsers will pick these up */
+.swap-section select option,
+.slippage-row select option,
+.limit-expiry-row select option {
+  background: var(--card-bg) !important;   /* white in light, dark in dark */
+  color: var(--text-color) !important;     /* black in light, white in dark */
+}
+
+/* ─── 4) In case the UA is stubborn, enforce on open: ───── */
+select::-ms-expand { display: none; } /* hide IE arrow */
+option { background-color: var(--card-bg) !important; }
+
+/* ─── 5) Number Inputs styling ─────────────────────────── */
+.swap-section input[type="number"],
+.limit-price-input {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  text-align: right;
+  font-size: 1.25rem;
+  flex: 1;
+}
+
+/* ─── 6) Expiry field wrapper ──────────────────────────── */
+.limit-expiry-row {
+  margin-top: 12px;
+}
+/* Top‐level pill toggle */
+.pill-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 12px;
+}
+.pill-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background: var(--overlay-bg);
+  color: var(--text-color);
+  cursor: pointer;
+}
+.pill-btn.active {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
   color: black;
-  padding: 8px 16px;
+}
+
+/* Sell/Buy sections */
+.swap-section {
+  margin-bottom: 12px;
+}
+.swap-section label {
+  display: block;
+  color: var(--text-color);
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+/* remove the padding here; we'll put it on the children */
+.swap-row {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;    /* clip any focus outline nicely */
+}
+
+.swap-row select,
+.swap-row input {
+  flex: 1;                 /* share the available space equally */
+  padding: 12px 16px;      /* same top/bottom + left/right padding */
+  font-size: 1rem;         /* identical font size */
+  line-height: 1.2;        /* consistent line-height */
+  margin: 0;               /* reset any user-agent margins */
+  background: transparent; /* preserve card‑bg behind */
+  border: none;
+  color: var(--text-color);
+}
+.swap-row input[readonly] {
+  text-align: right;
+}
+
+/* remove default arrow & inner padding on select */
+.swap-row select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.mini-label {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin-top: 4px;
+}
+
+/* Swap direction button */
+.swap-direction-btn {
+  display: block;
+  margin: 0 auto 12px;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+/* Rate & slip rows */
+.rate-row,
+.slippage-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  color: var(--text-color);
+}
+.slippage-row select,
+.slippage-row .slippage-input {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 4px 8px;
+  color: var(--text-color);
+}
+
+/* Error box */
+.error-row {
+  background: rgba(255,0,0,0.1);
+  border: 1px solid rgba(255,0,0,0.6);
+  border-radius: 8px;
+  padding: 8px;
+  color: #f55;
+  margin-bottom: 12px;
+}
+
+/* Swap / Place Order buttons */
+.swap-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary-green);
+  color: var(--card-text);
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 12px;
 }
+.swap-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* Tweak max/balance labels up to line‑up nicely */
+.mini-label,
+.balance-label {
+  margin: 4px 0 12px;
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--text-color-inactive, #888);
+}
+
+/* ─── Stake Page ────────────────────────────────────────── */
+.stake-container {
+  padding: 0 16px 16px;
+}
+
+.stake-section {
+  margin-bottom: 16px;
+}
+.stake-section label {
+  display: block;
+  color: var(--text-color);
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.stake-row {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.stake-row span {
+  padding: 12px 16px;
+  color: var(--text-color);
+  background: var(--overlay-bg);
+}
+.stake-row input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: var(--text-color);
+  border: none;
+  background: transparent;
+}
+.mini-label {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin-top: 4px;
+}
+
+/* Validator display */
+.validator-section .validator-display {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 8px;
+}
+.validator-logo {
+  width: 32px; height: 32px; border-radius: 50%;
+  margin-right: 12px;
+}
+.validator-info {
+  flex: 1;
+}
+.validator-name   { color: var(--text-color); font-weight: bold; }
+.validator-apy    { color: var(--text-color); font-size: 0.85rem; }
+.edit-btn {
+  background: var(--primary-green);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: black;
+  cursor: pointer;
+}
+
+/* Stats rows */
+.stake-stats .stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+.info-icon {
+  font-size: 0.85rem;
+  margin-left: 4px;
+  color: var(--text-color);
+}
+
+/* Error styling: reuse .error-row from swap */
+.error-row {
+  /* same as swap error */
+  background: rgba(255,0,0,0.1);
+  border: 1px solid rgba(255,0,0,0.6);
+  border-radius: 8px;
+  padding: 8px;
+  color: #f55;
+  margin-bottom: 12px;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 80px;
+  z-index: 100;
+}
+
+/* Modal content */
+.modal-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 360px;
+  overflow: hidden;
+}
+.validator-search {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--overlay-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+.validator-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.validator-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+}
+.validator-item:hover {
+  background: var(--overlay-bg);
+}
+.validator-item img {
+  width: 28px; height: 28px; border-radius: 50%;
+  margin-right: 12px;
+}
+.validator-item span {
+  color: var(--text-color);
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+/* ─── Send Page ─────────────────────────────────────────── */
+.send-container {
+  padding: 16px;
+}
+.send-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.send-input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+.paste-btn {
+  padding: 12px 16px;
+  background: var(--primary-green);
+  border: none;
+  border-radius: 12px;
+  color: black;
+  cursor: pointer;
+}
+.qr-scan-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--overlay-bg);
+  border: none;
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ─── Scan Page ────────────────────────────────────────── */
+.scan-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+.enable-camera-btn {
+  padding: 12px 20px;
+  background: var(--primary-green);
+  border: none;
+  border-radius: 12px;
+  color: black;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.qr-video {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background: black;
+}
+.error-row {
+  background: rgba(255,0,0,0.1);
+  border: 1px solid rgba(255,0,0,0.6);
+  border-radius: 8px;
+  padding: 8px;
+  color: #f55;
+  margin-bottom: 12px;
+  width: 100%;
+  text-align: center;
+}
+#qr-reader {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 24px;
+}
+
 
 /* ── Information List ───────────────────────────────────────────── */
 .information-section {
@@ -995,3 +1852,4 @@ body {
     margin: auto;
   }
 }
+

@@ -7,9 +7,14 @@ import WidgetNav from './WidgetNav';
 const Payment = () => {
   const { state } = useLocation();
   const navigate  = useNavigate();
-  const role      = state?.role || 'guest';
+  const role      = (state?.role     || 'guest').toLowerCase();
   const username  = state?.username || 'Guest';
-  const profileIcon = role==='guest'?'❓':'👤';
+  const method    = state?.method   || 'email';
+  const profileIcon = method === 'ii'
+    ? '🆔'
+    : role === 'guest'
+      ? '❓'
+      : '👤';
 
   return (
     <div className="home-container">
@@ -18,7 +23,12 @@ const Payment = () => {
       <div className="dashboard-content">
         <p>Payment options coming soon…</p>
       </div>
-      <WidgetNav profileIcon={profileIcon} role={role} username={username} />
+      <WidgetNav
+        profileIcon={profileIcon}
+        role={role}
+        username={username}
+        method={method}
+      />
     </div>
   );
 };
