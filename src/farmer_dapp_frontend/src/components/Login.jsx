@@ -2,16 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { AuthClient } from '@dfinity/identity';
-import { Principal } from '@dfinity/principal';
+// import { AuthClient } from '@dfinity/identity';
+// import { Principal } from '@dfinity/principal';
 
 const Login = () => {
   const { role }      = useParams();
   const roleLabel     = role.charAt(0).toUpperCase() + role.slice(1);
   const navigate      = useNavigate();
   const isGuest       = role === 'guest';
-  const [identity, setIdentity] = useState(null);
-  const [principal, setPrincipal] = useState(null);
+  // const [identity, setIdentity] = useState(null);
+  // const [principal, setPrincipal] = useState(null);
 
   useEffect(() => {
     // Initialize the AuthClient and check if the user is already authenticated

@@ -15,16 +15,15 @@ actor AgricultureShop {
 
     var products : [Product] = [];
 
-
     // Add a new agriculture product
-    public shared func addProduct(name : Text, category : Text, price : Nat, caller : Principal) : async Nat {
+    public shared (msg) func addProduct(name : Text, category : Text, price : Nat) : async Nat {
         let id = products.size();
         let newProduct : Product = {
             id = id;
             name = name;
             category = category;
             price = price;
-            owner = caller;
+            owner = msg.caller;
         };
         products := Array.append<Product>(products, [newProduct]);
         return id;
@@ -45,13 +44,13 @@ actor AgricultureShop {
     };
 
     // Buy a product (ownership transfer)
-    public shared func buyProduct(productId : Nat, caller: Principal) : async Text {
+    public shared (msg) func buyProduct(productId : Nat) : async Text {
         let index = await findProductIndex(productId);
         switch (index) {
             case (?i) {
                 let product = products[i];
 
-                if (product.owner == caller) {
+                if (product.owner == msg.caller) {
                     return "You already own this product.";
                 };
 
