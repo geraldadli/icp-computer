@@ -6,7 +6,8 @@
     },
     "farmer_dapp_frontend": {
       "dependencies": [
-        "farmer_dapp_backend"
+        "farmer_dapp_backend",
+        "internet_identity"
       ],
       "source": [
         "src/farmer_dapp_frontend/dist"

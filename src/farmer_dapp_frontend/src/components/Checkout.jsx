@@ -19,8 +19,10 @@ export default function Checkout() {
   const address = state?.address || 'No address set';
 
   // Build line-items
-  const items = Object.entries(cart).map(([id, qty]) => {
-    const prod = mockProducts.find((p) => p.id === +id);
+    // Use passed products or fallback to mockProducts
+    const allProducts = state?.products || mockProducts;
+    const items = Object.entries(cart).map(([id, qty]) => {
+    const prod = allProducts.find((p) => p.id === +id);
     return { ...prod, qty };
   });
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);

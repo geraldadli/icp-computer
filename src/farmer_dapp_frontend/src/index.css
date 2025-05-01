@@ -288,6 +288,39 @@ button {
     right: 0;
   }
 }
+.sell-cta-wrapper {
+  padding: 0 16px;
+  margin: 12px 0;
+  text-align: center;
+}
+.sell-cta-btn {
+  background: var(--primary-green);
+  color: var(--card-text);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.sell-cta-btn:hover {
+  opacity: 0.9;
+}
+
+.img-preview-wrapper {
+  width: 100%;
+  max-width: 240px;       /* thumbnail max width */
+  margin-top: 8px;
+}
+.img-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 200px;      /* thumbnail max height */
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
 
 
 /* ─────────────────────────────────────────────────────────────────── */
@@ -1835,6 +1868,52 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+/* Sell page stock + preview tweaks */
+.sell-container { background: var(--bg); padding-bottom:80px; }
+.back-btn { margin:12px 16px; background:none; border:none; color:var(--text-color); cursor:pointer; }
+.sell-form { padding:0 16px; }
+.form-group { margin-bottom:16px; display:flex; flex-direction:column; }
+.form-group label { margin-bottom:6px; color:var(--text-color); }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--overlay-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-color);
+  font-size:1rem;
+}
+.img-preview-wrapper {
+  width:100%; max-width:240px; margin-top:8px;
+}
+.img-preview {
+  display:block; width:100%; height:auto; max-height:200px;
+  object-fit:cover; border:1px solid var(--border-color); border-radius:8px;
+}
+.sell-btn {
+  width:100%; background:var(--primary-green); color:var(--card-text);
+  padding:14px; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer;
+}
+.sell-btn:hover { opacity:0.9; }
+.error-text { color: #e74c3c; margin-top:4px; }
+
+
+.product-card { position: relative; padding:16px; }
+.card-actions { display:flex; gap:8px; margin-top:8px; }
+.remove-btn { background:#e74c3c; color:#fff; border:none; padding:4px 8px; border-radius:4px; }
+.chat-btn   { background:#3498db; color:#fff; border:none; padding:4px 8px; border-radius:4px; }
+
+.chat-container { padding:16px; }
+.chat-log { max-height:60vh; overflow-y:auto; margin-bottom:12px; }
+.chat-bubble { margin-bottom:8px; padding:8px; border-radius:8px; width:fit-content; max-width:80%; }
+.chat-bubble.in  { background:var(--overlay-bg); }
+.chat-bubble.out { background:var(--primary-green); color:var(--card-text); margin-left:auto; }
+.chat-form { display:flex; gap:8px; }
+.chat-form input { flex:1; padding:8px; border:1px solid var(--border-color); border-radius:4px; }
+.chat-form button{ padding:8px 12px; background:var(--primary-green); color:var(--card-text); border:none; border-radius:4px; }
+
+
 
 
 /* Responsive (desktop preview) */

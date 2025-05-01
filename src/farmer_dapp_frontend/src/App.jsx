@@ -29,6 +29,8 @@ import ActivitySettings    from './components/settings/ActivitySettings';
 import NotificationSettings from './components/settings/NotificationSettings.jsx';
 import LanguageSettings    from './components/settings/LanguageSettings';
 import PrivacySettings     from './components/settings/PrivacySettings';
+import Sell from './components/Sell';
+import Chat from './components/Chat';
 
 import './index.css';
 
@@ -63,6 +65,8 @@ function App() {
         <Route path="/settings/notification"    element={<NotificationSettings />} />
         <Route path="/settings/language"        element={<LanguageSettings />} />
         <Route path="/settings/privacy"         element={<PrivacySettings />} />
+        <Route path="/sell"           element={<Sell />} />
+        <Route path="/chat/:productId" element={<Chat />} />
       </Routes>
     </Router>
   );
