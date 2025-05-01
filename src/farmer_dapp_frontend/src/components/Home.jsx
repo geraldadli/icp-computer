@@ -14,10 +14,10 @@ const Home = () => {
   const method    = state?.method   || 'email';
 
   // Customize greeting based on method
-  const greeting = method === 'ii'
-    ? `Welcome via Internet Identity`
-    : `Hi, ${username}${role !== 'guest' ? `'s` : ''}`;
-
+  // const greeting = method === 'ii'
+  //   ? `Welcome via Internet Identity`
+  //   : `Hi, ${username}${role !== 'guest' ? `'s` : ''}`;
+  const greeting = "";
   // Choose an avatar/icon:
   const profileIcon = method === 'ii'
     ? '🆔'
@@ -46,12 +46,12 @@ const Home = () => {
         onSettings={handleSettings}
       />
 
-      {/* If you want to show the username/principal under the greeting */}
+      {/* If you want to show the username/principal under the greeting
       {method === 'ii' && (
         <div style={{ textAlign: 'center', color: 'white', marginBottom: 12 }}>
           Signed in as Principal: {username}
         </div>
-      )}
+      )} */}
 
       <Dashboard />
 

@@ -210,7 +210,7 @@ button {
   font-size: 1.5rem;
   background: none;
   border: none;
-  color: white;
+  color: var(--text-color);
   cursor: pointer;
 }
 
@@ -218,7 +218,9 @@ button {
 .greeting {
   /* flex: 1; */
   text-align: left;
+  color: var(--text-color);
   font-size: 1.25rem;
+  max-width: 60%;
 }
 
 /* Profile avatar */
@@ -262,6 +264,7 @@ button {
   flex: 1;
   min-width: 0;
   cursor: pointer;
+  margin-bottom: 14px;
   z-index: 2;
 }
 
@@ -1737,7 +1740,7 @@ option { background-color: var(--card-bg) !important; }
 :root {
   --bg-color: #ffffff;
   --text-color: #000000;
-  --overlay-bg: rgba(0,0,0,0.4);
+  --overlay-bg: rgba(0,0,0,0.06);
   --card-bg: white;
   --card-text: black;
   --primary-green: #2ed573;

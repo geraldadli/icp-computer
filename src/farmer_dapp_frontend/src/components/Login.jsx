@@ -1,38 +1,39 @@
-// src/components/Login.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { AuthClient } from '@dfinity/auth-client';
+import { Principal } from '@dfinity/principal';
 import logo from '../assets/logo.png';
-// import { AuthClient } from '@dfinity/identity';
-// import { Principal } from '@dfinity/principal';
-
+// ii dummy: 2759707
 const Login = () => {
-  const { role }      = useParams();
-  const roleLabel     = role.charAt(0).toUpperCase() + role.slice(1);
-  const navigate      = useNavigate();
-  const isGuest       = role === 'guest';
-  // const [identity, setIdentity] = useState(null);
-  // const [principal, setPrincipal] = useState(null);
+  const { role } = useParams();
+  const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
+  const navigate = useNavigate();
+  const isGuest = role === 'guest';
+
+  const [identity, setIdentity] = useState(null);
+  // principal will hold a Principal object
+  const [principal, setPrincipal] = useState(null);
+  const [method, setMethod] = useState('ii');
+  const [form, setForm] = useState({ username: '', password: '' });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    // Initialize the AuthClient and check if the user is already authenticated
-    const authClient = new AuthClient();
-
-    if (authClient.isAuthenticated()) {
-      // User is already authenticated
-      const identity = authClient.getIdentity();
-      setIdentity(identity);
-      setPrincipal(identity.getPrincipal().toText());
-    }
+    (async () => {
+      const authClient = await AuthClient.create();
+      if (await authClient.isAuthenticated()) {
+        const id = await authClient.getIdentity();
+        setIdentity(id);
+        // getPrincipal() returns a Principal instance
+        const princObj = id.getPrincipal();
+        setPrincipal(princObj);
+      }
+    })();
   }, []);
-  // method: 'ii' or 'email'
-  const [method, setMethod] = useState('ii');
-  const [form, setForm]     = useState({ username: '', password: '' });
-  const [errors, setErrors] = useState({});
 
   const validate = () => {
     const e = {};
     if (!form.username.trim()) e.username = 'Required';
-    if (!form.password) e.password = 'Required'; 
+    if (!form.password) e.password = 'Required';
     return e;
   };
 
@@ -44,23 +45,31 @@ const Login = () => {
     const e2 = validate();
     setErrors(e2);
     if (Object.keys(e2).length === 0) {
-      // TODO: call backend/login
       navigate('/home', {
         state: { role, username: form.username, method: 'email' },
       });
     }
   };
 
-  const handleII = () => {
-    // TODO: integrate DFINITY II SDK and grab the principal as username
-    const principal = 'abcd-4ya6g-iaaaa-aaaaa-cai'; // mock example
-    navigate('/home', {
-      state: { role, username: principal, method: 'ii' },
+  const handleII = async () => {
+    const authClient = await AuthClient.create();
+    await authClient.login({
+      identityProvider: 'https://identity.ic0.app',
+      maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1000000000),
+      onSuccess: async () => {
+        const id = await authClient.getIdentity();
+        const text = id.getPrincipal().toText();
+        // reconstruct Principal from text using Principal.fromText
+        const princObj = Principal.fromText(text);
+        setPrincipal(princObj);
+        navigate('/home', {
+          state: { role, username: princObj.toText(), method: 'ii' },
+        });
+      },
     });
   };
 
   if (isGuest) {
-    // Guests skip Login
     navigate('/home', { replace: true, state: { role, username: 'Guest' } });
     return null;
   }
@@ -71,7 +80,6 @@ const Login = () => {
       <img src={logo} alt="Logo" className="logo" />
       <h2>Hello! {roleLabel}</h2>
 
-      {/* Method Switcher */}
       <div className="method-switcher">
         <button
           className={method === 'ii' ? 'active' : ''}
@@ -83,12 +91,11 @@ const Login = () => {
         >Email & Password</button>
       </div>
 
-      {/* Internet Identity Flow */}
       {method === 'ii' ? (
         <div className="ii-flow">
           <p>Login using your Internet Identity</p>
           <button className="ii-btn" onClick={handleII}>
-            Sign in with II
+            Sign in with Internet Identity
           </button>
         </div>
       ) : (
@@ -121,7 +128,7 @@ const Login = () => {
       )}
 
       <p style={{ marginTop: 'auto' }}>
-        Don’t have an account?{' '}
+        Donât have an account?{' '}
         <Link to={`/${role}/register`} className="text-highlight">
           Register now
         </Link>
