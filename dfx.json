@@ -3,6 +3,7 @@
     "farmer_dapp_backend": {
       "main": "src/farmer_dapp_backend/main.mo",
       "type": "motoko"
+      
     },
     "farmer_dapp_frontend": {
       "dependencies": [

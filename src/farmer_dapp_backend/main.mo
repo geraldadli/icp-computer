@@ -5,9 +5,10 @@ import Principal "mo:base/Principal";
 
 actor AgricultureShop {
 
-     type Product = {
+    type Product = {
         id : Nat;
         name : Text;
+        description : Text;
         category : Text;
         price : Nat;
         owner : Principal;
@@ -16,11 +17,12 @@ actor AgricultureShop {
     var products : [Product] = [];
 
     // Add a new agriculture product
-    public shared (msg) func addProduct(name : Text, category : Text, price : Nat) : async Nat {
+    public shared (msg) func addProduct(name : Text, category : Text, description : Text, price : Nat) : async Nat {
         let id = products.size();
         let newProduct : Product = {
             id = id;
             name = name;
+            description = description;
             category = category;
             price = price;
             owner = msg.caller;
@@ -35,7 +37,7 @@ actor AgricultureShop {
     };
     public query func findProductIndex(productId : Nat) : async ?Nat {
         // Manually search for the product by its ID
-        for (i in Iter.range(0, Array.size(products) - 1) ){
+        for (i in Iter.range(0, Array.size(products) - 1)) {
             if (products[i].id == productId) {
                 return ?i; // Return the index if found
             };
@@ -61,6 +63,25 @@ actor AgricultureShop {
                 //     price = product.price;
                 //     owner = caller;
                 // };
+
+                products := Array.mapEntries<Product, Product>(
+                    products,
+                    func(x, k) {
+                        if (k == i) {
+                            return {
+                                id = x.id;
+                                name = x.name;
+                                category = x.category;
+                                description = x.description;
+                                price = x.price;
+                                owner = msg.caller;
+                            };
+                        } else {
+                            return x;
+                        };
+                    },
+                );
+
                 return "Purchase successful!";
             };
             case null {
