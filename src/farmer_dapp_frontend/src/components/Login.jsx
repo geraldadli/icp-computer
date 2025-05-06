@@ -46,7 +46,7 @@ const Login = () => {
     setErrors(e2);
     if (Object.keys(e2).length === 0) {
       navigate('/home', {
-        state: { role, username: form.username, method: 'email' },
+        state: { role, username: form.username, method: 'email', principal: principal },
       });
     }
   };
@@ -63,7 +63,7 @@ const Login = () => {
         const princObj = Principal.fromText(text);
         setPrincipal(princObj);
         navigate('/home', {
-          state: { role, username: princObj.toText(), method: 'ii' },
+          state: { role, username: princObj.toText(), method: 'ii', principal: princObj },
         });
       },
     });

@@ -3,11 +3,17 @@
     "farmer_dapp_backend": {
       "main": "src/farmer_dapp_backend/main.mo",
       "type": "motoko"
-      
+    },
+
+
+    "payment_canister": {
+      "main": "src/farmer_dapp_backend/payment.mo",
+      "type": "motoko"
     },
     "farmer_dapp_frontend": {
       "dependencies": [
-        "farmer_dapp_backend"
+        "farmer_dapp_backend",
+        "internet_identity"
       ],
       "source": [
         "src/farmer_dapp_frontend/dist"

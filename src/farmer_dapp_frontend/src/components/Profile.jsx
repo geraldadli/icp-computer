@@ -30,14 +30,14 @@ const Profile = () => {
 
       {/* Header */}
       <div className="profile-header">
-        <button className="back-button" onClick={handleBack}>←</button>
-        <div className="profile-title">Profile</div>
+        <button className="back-button t-text" onClick={handleBack}>←</button>
+        <div className="profile-title t-text" style={{ marginTop: "20px" }}>Profile</div>
         <div style={{ width: 32 }} />
       </div>
 
       {/* Avatar + Name */}
       <div className="profile-avatar">{profileIcon}</div>
-      <div className="profile-name">
+      <div className="profile-name t-text">
         {method === 'ii'
           ? `Principal: ${username}`       // show full principal
           : username                       // normal username

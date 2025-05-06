@@ -1,35 +1,52 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { QRCodeSVG } from 'qrcode.react';
+import React, {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {QRCodeSVG} from "qrcode.react";
 
-import NavBar    from './NavBar';
-import WidgetNav from './WidgetNav';
-
+import NavBar from "./NavBar";
+import WidgetNav from "./WidgetNav";
+import actor from "../dfx/wallet";
 export default function Receive() {
-  const { state }   = useLocation();
-  const navigate    = useNavigate();
+  const {state} = useLocation();
+  const navigate = useNavigate();
 
-  const role        = (state?.role     || 'guest').toLowerCase();
-  const username    = state?.username || 'Guest';
-  const method      = state?.method   || 'email';
-  const profileIcon = method === 'ii' ? '🆔'
-                       : role === 'guest' ? '❓' : '👤';
+  const role = (state?.role || "guest").toLowerCase();
+  const username = state?.username || "Guest";
+  const method = state?.method || "email";
+  const profileIcon = method === "ii" ? "🆔" : role === "guest" ? "❓" : "👤";
+  const [wallets, setWallets] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchWallets() {
+      try {
+        const a = await actor;
+        const result = await a.viewWallets();
+        setWallets(result);
+      } catch (err) {
+        console.error("Error fetching wallets:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchWallets();
+  }, []);
 
   // your on‑chain wallet principal or address
-  const walletId = state?.walletId || 'abcd-4ya6g-iaaaa-aaaaa-cai';
+  const walletId = state?.walletId || "abcd-4ya6g-iaaaa-aaaaa-cai";
 
-  const handleBack = () => navigate('/cash', { state });
+  const handleBack = () => navigate("/cash", {state});
 
   const handleCopy = () => {
     navigator.clipboard.writeText(walletId);
-    alert('Wallet ID copied!');
+    alert("Wallet ID copied!");
   };
 
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({ text: walletId }).catch(console.error);
+      navigator.share({text: walletId}).catch(console.error);
     } else {
-      alert('Share unavailable');
+      alert("Share unavailable");
     }
   };
 
@@ -41,7 +58,7 @@ export default function Receive() {
         greeting="Receive"
         profileIcon={profileIcon}
         onMenu={() => {}}
-        onSettings={() => navigate('/settings', { state })}
+        onSettings={() => navigate("/settings", {state})}
       />
 
       {/* Back arrow inside content */}
@@ -71,6 +88,21 @@ export default function Receive() {
               📤 Share
             </button>
           </div>
+          <button
+            className="receive-btn"
+            onClick={async () => {
+              if (!wallets.length) return alert('Wallet not found');
+              const res = await (await actor).deposit(wallets[0].id, 100);
+              alert(res);
+            }}
+            style={{
+              marginTop: "5px",
+              width: "85%",
+              background: "blue",
+              color: "white",
+            }}>
+            <center>Confirm</center>
+          </button>
         </div>
       </div>
 

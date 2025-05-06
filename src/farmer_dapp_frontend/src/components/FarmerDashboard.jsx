@@ -1,50 +1,81 @@
-import React, { useState, useMemo, useContext } from "react";
+import React, {useState, useEffect, useContext, useMemo} from "react";
 import NavBar from "./NavBar";
 import WidgetNav from "./WidgetNav";
-import { mockProducts } from "../data/mockProducts";
-import { ThemeContext } from "../ThemeContext"; // Make sure ThemeContext exists and is exported properly
+import {useLocation} from "react-router-dom";
 
+import {ThemeContext} from "../ThemeContext";
+import actor from "../dfx/marketplace";
+if (typeof global === "undefined") {
+  window.global = window;
+}
 const FarmerDashboard = () => {
-  // State variables
+  // define the state variables
+  const {state} = useLocation();
+  const username = state?.username || "Guest";
+  const method = state?.method || "email";
+  const profileIcon = method === "ii" ? "🆔" : role === "guest" ? "❓" : "👤";
+  const role = (state?.role || "guest").toLowerCase();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(10);
   const [cart, setCart] = useState([]);
-  const { darkMode } = useContext(ThemeContext);
+  const [products, setProducts] = useState([]);
+  const {darkMode} = useContext(ThemeContext);
+  // Fetch products from Motoko backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const tmp = await actor;
 
-  // Filter products based on category and search query
+        const data = await tmp.viewProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Filtered products based on search and category
   const filteredProducts = useMemo(() => {
-    return mockProducts.filter((product) => {
-      const matchesCategory =
+    return products.filter((product) => {
+      const matchCategory =
         selectedCategory === "All" || product.category === selectedCategory;
-      const matchesSearch = product.name
+      const matchSearch = product.name
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+      return matchCategory && matchSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [products, selectedCategory, searchQuery]);
 
-  // Visible products for "Load More" feature
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
-  // Add product to cart
+  const loadMore = () => {
+    setVisibleCount((prev) => prev + 10);
+  };
+
   const addToCart = (productId) => {
-    const product = mockProducts.find((p) => p.id === productId);
+    const product = products.find((p) => p.id === productId);
     if (product) {
       setCart((prevCart) => [...prevCart, product]);
       alert(`${product.name} added to cart!`);
     }
   };
 
-  // Load more products
-  const loadMore = () => {
-    setVisibleCount((prev) => prev + 10);
+  const decodeImage = (bytes) => {
+    if (!bytes || bytes.length === 0) return "";
+    const binary = new Uint8Array(bytes).reduce(
+      (data, byte) => data + String.fromCharCode(byte),
+      ""
+    );
+    return `data:image/jpeg;base64,${btoa(binary)}`;
   };
 
   return (
     <div className={`dashboard-content ${darkMode ? "dark" : "light"}`}>
       <WidgetNav />
-      
+
       <div className="section">
         <h3>Income Analysis</h3>
         <div className="chart-placeholder">[Chart here]</div>
@@ -56,8 +87,7 @@ const FarmerDashboard = () => {
         <div className="filters">
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
+            onChange={(e) => setSelectedCategory(e.target.value)}>
             <option value="All">All</option>
             <option value="Fruits">Fruits</option>
             <option value="Vegetables">Vegetables</option>
@@ -74,28 +104,89 @@ const FarmerDashboard = () => {
 
         <div
           className="products-grid"
-          style={{
-            maxHeight: "400px",
-            overflowY: "auto",
-            paddingRight: "10px",
-          }}
-        >
-          {visibleProducts.map((product) => (
+          style={{maxHeight: "400px", overflowY: "auto"}}>
+          {visibleProducts.map((p) => (
+            
+              
+            
             <div
-              key={product.id}
-              className={`product-card ${darkMode ? "dark" : "light"}`}
-            >
-              <img src={product.image} alt={product.name} />
-              <div>{product.name}</div>
-              <div>{product.desc}</div>
-              <div>⭐ {product.rating}</div>
-              <div>Rp. {product.price.toLocaleString()}</div>
-              <button onClick={() => addToCart(product.id)}>Add to Cart</button>
+              key={p.id}
+              className={`product-card ${darkMode ? "dark" : "light"}`}>
+              <img
+                src={decodeImage(p.image)}
+                alt={p.name}
+                style={{width: "100%", height: "150px", objectFit: "cover"}}
+              />
+              <h5
+                style={{
+                  textAlign: "left",
+                  marginBottom: "5px",
+                  color: "green",
+                }}>
+                Rp. {p.price.toLocaleString()}
+
+              </h5>
+
+              <h3
+                style={{
+                  textAlign: "left",
+                  marginBottom: "0px",
+                  marginTop: "0px",
+                }}>
+                {p.name}
+              </h3>
+              <p
+                style={{
+                  textAlign: "left",
+                  marginTop: "5px",
+                  marginBottom: "5px",
+                  color: "#999999",
+                }}>
+                {p.description}
+              </p>
+
+              <small
+                style={{
+                  textAlign: "left",
+                  marginBottom: "0px",
+                  marginTop: "0px",
+                  color: "#999911",
+                }}>
+                tersedia ({p.stock}) pcs
+              </small>
+              <hr></hr>
+              <p
+                style={{
+                  textAlign: "left",
+                  marginBottom: "0px",
+                  marginTop: "0px",
+                }}>
+                Seller: {p.owner.toText()}
+              </p>
+
+              <div className="card-actions">
+                
+           
+                {role === "farmer" && p.seller === username && (
+                  
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeProduct(p.id)}>
+                    Remove
+                  </button>
+                )}
+
+                {role === "buyer" && (
+                  <button className="chat-btn" onClick={() => openChat(p.id)}>
+                    Chat
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
 
-        {visibleProducts.length < filteredProducts.length && (
+        {visibleCount < filteredProducts.length && (
           <button onClick={loadMore}>Load More</button>
         )}
       </div>
