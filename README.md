@@ -6,8 +6,6 @@
 3. Agra Radhitya
 4. Khalif Umar Al Faruq
 
-**Untuk push code, jangan di main. Pilih branch 1, 2, atau 3. Github Private Free Account tidak ada sistem authentication pull requests.
-Jadi tolong di branch masing-masing. Aku bakal push ke main setelah review codenya.**
 ----------------------------------------------------------------------------------------------------------
 
 Welcome to your new `farmer_dapp` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
