@@ -18,7 +18,7 @@ actor Wallet {
         // Check if the user already has a wallet
         for (i in Iter.range(0, Array.size(wallets) - 1)) {
             if (wallets[i].user == user) {
-                return -1;
+                return 0;
             };
         };
         let id = wallets.size();

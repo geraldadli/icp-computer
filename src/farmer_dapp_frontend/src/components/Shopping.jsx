@@ -5,36 +5,19 @@ import NavBar from "./NavBar";
 import WidgetNav from "./WidgetNav";
 import {ThemeContext} from "../ThemeContext";
 import actor from "../dfx/marketplace";
-
 // Polyfill for global
 if (typeof global === "undefined") {
   window.global = window;
 }
 
-function ImageViewer({imageData}) {
-  const [imageURL, setImageURL] = useState(null);
-
-  useEffect(() => {
-    if (imageData && imageData.length > 0) {
-      // Step 1: Convert [Nat8] to Uint8Array
-      const byteArray = new Uint8Array(imageData);
-
-      // Step 2: Create a Blob (guess MIME type or pass one like 'image/jpeg')
-      const blob = new Blob([byteArray], {type: "image/png"});
-
-      // Step 3: Create a local object URL
-      const url = URL.createObjectURL(blob);
-      setImageURL(url);
-
-      // Step 4: Clean up on unmount
-      return () => URL.revokeObjectURL(url);
-    }
-  }, [imageData]);
-
-  if (!imageURL) return <p>Loading image...</p>;
-
-  return <img src={imageURL} alt="Product" style={{maxWidth: "100%"}} />;
-}
+const decodeImage = (bytes) => {
+  if (!bytes || bytes.length === 0) return "";
+  const binary = new Uint8Array(bytes).reduce(
+    (data, byte) => data + String.fromCharCode(byte),
+    ""
+  );
+  return `data:image/jpeg;base64,${btoa(binary)}`;
+};
 
 export default function Shopping() {
   const {state} = useLocation();
@@ -91,13 +74,16 @@ export default function Shopping() {
     products.forEach((p) => {
       console.log(p.owner._arr);
     });
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(products, (_, v) =>
-        typeof v === "bigint" ? v.toString() : v
-      )
-    );
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(products, (_, v) =>
+          typeof v === "bigint" ? v.toString() : v
+        )
+      );
+    } catch (error) {
+      console.error("Error saving products to localStorage:", error);
+    }
   }, [products]);
 
   // 6) Cart & address
@@ -242,7 +228,7 @@ export default function Shopping() {
           <div
             key={p.id}
             className={`product-card ${darkMode ? "dark" : "light"}`}>
-            <ImageViewer imageData={p.image} />
+            <img src={decodeImage(p.image)} />
             <h5
               style={{textAlign: "left", marginBottom: "5px", color: "green"}}>
               Rp. {p.price.toLocaleString()}
@@ -282,11 +268,18 @@ export default function Shopping() {
                 marginBottom: "0px",
                 marginTop: "0px",
               }}>
-              seller: { p.seller === username ? (<b><i>You</i></b>) :  p.owner.toText()}
+              seller:{" "}
+              {p.seller === username ? (
+                <b>
+                  <i>You</i>
+                </b>
+              ) : (
+                p.owner.toText()
+              )}
             </p>
 
             <div className="card-actions">
-              { p.seller !== username && (
+              {p.seller !== username && (
                 <button onClick={() => addToCart(p)}>Add to Cart</button>
               )}
 

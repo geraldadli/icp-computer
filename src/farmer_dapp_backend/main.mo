@@ -43,6 +43,7 @@ public shared (msg) func addProduct(name : Text, category : Text, description : 
 public query func viewProducts() : async [Product] {
     return products;
 };
+
 public query func findProductIndex(productId : Nat) : async ?Nat {
     // Manually search for the product by its ID
     for (i in Iter.range(0, Array.size(products) - 1)) {
@@ -92,7 +93,7 @@ public shared (msg) func buyProduct(productId : Nat) : async Text {
                     };
                 },
             );
-
+ 
             return "Purchase successful!";
         };
         case null {

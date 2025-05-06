@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import NavBar from "./NavBar";
 import WidgetNav from "./WidgetNav";
 import {mockProducts} from "../data/mockProducts";
-
+import actor from '../dfx/marketplace';
 export default function Checkout() {
   const {state} = useLocation();
   const navigate = useNavigate();
@@ -29,7 +29,6 @@ export default function Checkout() {
     0n
   );
   const subtotalFormatted = Number(subtotal).toLocaleString(); // For display
-  
 
   // Rename this to avoid conflict with login method
   const [paymentMethod, setPaymentMethod] = useState("BCA");
@@ -56,25 +55,42 @@ export default function Checkout() {
   //     },
   //   });
   // };
-  
-  const handlePlaceOrder = () => {
-    // Build notification message
+
+  const handlePlaceOrder = async () => {
+    const actorx = await actor;
+
+    // Call buyProduct for each item in the cart
+    for (const item of items) {
+      for (let i = 0; i < item.qty; i++) {
+        try {
+          const res = await actorx.buyProduct(item.id); 
+          console.log(`Bought ${item.name}:`, res);
+        } catch (err) {
+          console.error(`Failed to buy ${item.name}:`, err);
+          alert(`Failed to purchase ${item.name}. Try again.`);
+          return; // Optionally stop further purchases
+        }
+      }
+    }
+
+    // Build notification
     const message = {
       id: Date.now(),
       title: "Order Placed",
-      body: `You bought ${items.length} item(s) for Rp. ${subtotal.toLocaleString()}`,
+      body: `You bought ${
+        items.length
+      } item(s) for Rp. ${subtotal.toLocaleString()}`,
       date: new Date().toISOString(),
-      method: paymentMethod === "IC Pay" ? `IC Pay (${icPayOpt})` : paymentMethod,
+      method:
+        paymentMethod === "IC Pay" ? `IC Pay (${icPayOpt})` : paymentMethod,
     };
-  
-    // Get existing notifications
+
+    // Save notification
     const existing = JSON.parse(localStorage.getItem("notifications") || "[]");
     const updated = [message, ...existing];
-  
-    // Save updated list
     localStorage.setItem("notifications", JSON.stringify(updated));
-  
-    // Reset cart and go back to shop
+
+    // Navigate to shop
     navigate("/shop", {
       state: {
         cart: {},
@@ -85,7 +101,7 @@ export default function Checkout() {
       },
     });
   };
-  
+
   return (
     <div className="home-container">
       <div className="overlay" />
@@ -123,7 +139,7 @@ export default function Checkout() {
         {/* Payment Method */}
         <div className="section">
           <h3>Payment Method</h3>
-          {["BCA", "Gopay", "IC Pay"].map((m) => (
+          {["wallet"].map((m) => (
             <label key={m} className="payment-option">
               <input
                 type="radio"
