@@ -14,7 +14,6 @@
     "@dfinity/auth-client": "^2.4.1",
     "@dfinity/identity": "^2.4.1",
     "@dfinity/principal": "^2.4.1",
-    "@rollup/rollup-darwin-arm64": "^4.40.0",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.501.0",
     "qrcode.react": "^4.2.0",
