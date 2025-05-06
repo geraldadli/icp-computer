@@ -43,5 +43,5 @@ async function getWalletActor() {
   });
 }
 
-const actor = await getWalletActor();
+const actor =  getWalletActor();
 export default actor;

@@ -6,8 +6,8 @@ const RoleSelection = () => {
   const roles = [
     { name: 'Farmer', icon: '👨‍🌾' },
     { name: 'Buyer', icon: '🧑‍💼' },
-    { name: 'Distributor', icon: '🏭' },
-    { name: 'Guest', icon: '🚶‍♂️' },
+   // { name: 'Distributor', icon: '🏭' },
+    // { name: 'Guest', icon: '🚶‍♂️' },
   ];
 
   const handleClick = (role) => {
